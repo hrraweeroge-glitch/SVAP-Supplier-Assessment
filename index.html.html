@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SVAP Self-Assessment — HI-TECH APPAREL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{
+  --navy:#0B1D3A;--navy2:#132748;
+  --orange:#E8651A;--orange2:#D4560E;--orange-lt:#FFF3ED;--orange-mid:#FED7AA;
+  --gold:#B45309;--gold-lt:#FFFBEB;--gold-mid:#FDE68A;
+  --surface:#F8FAFC;--white:#FFFFFF;
+  --border:#E2E8F0;--border2:#CBD5E1;
+  --text:#0F172A;--text2:#475569;--text3:#94A3B8;
+  --green:#16A34A;--green-lt:#F0FDF4;--green-mid:#BBF7D0;
+  --amber:#D97706;--amber-lt:#FFFBEB;--amber-mid:#FDE68A;
+  --red:#DC2626;--red-lt:#FEF2F2;--red-mid:#FECACA;
+  --blue:#1C5BDB;--blue-lt:#EEF3FF;--blue-mid:#DBEAFE;
+  --r:8px;--rlg:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 4px 12px rgba(0,0,0,.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Prompt',sans-serif;background:var(--surface);color:var(--text);font-size:13px;line-height:1.6;min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:var(--navy);border-bottom:3px solid var(--orange);position:sticky;top:0;z-index:200}
+.hdr-inner{display:flex;align-items:center;gap:14px;padding:11px 20px}
+.logo{display:flex;flex-direction:column;gap:1px;flex-shrink:0}
+.logo-row{display:flex;align-items:baseline;gap:1px}
+.logo-hi{font-size:14px;font-weight:600;color:var(--orange);letter-spacing:.05em}
+.logo-tech{font-size:14px;font-weight:600;color:#FCD34D;letter-spacing:.1em}
+.logo-sub{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.25em;text-transform:uppercase}
+.hdr-div{width:1px;height:32px;background:rgba(255,255,255,.15);flex-shrink:0}
+.hdr-info{flex:1;min-width:0}
+.hdr-info h1{font-size:12px;font-weight:500;color:white;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-info p{font-size:10px;color:rgba(255,255,255,.45);margin-top:1px}
+.hdr-prog{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.hdr-prog-lbl{font-size:10px;color:rgba(255,255,255,.5)}
+.hdr-prog-track{width:120px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.hdr-prog-fill{height:100%;background:var(--orange);border-radius:2px;transition:width .4s ease}
+
+/* ── BODY ── */
+.body-wrap{max-width:920px;margin:0 auto;padding:20px 20px 100px}
+
+/* ── NOTICE ── */
+.notice{background:var(--blue-lt);border-left:3px solid var(--blue);border-radius:0 var(--r) var(--r) 0;padding:10px 14px;font-size:12px;color:#1e40af;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start}
+.notice i{flex-shrink:0;margin-top:1px;font-size:15px}
+.notice strong{color:#1e3a8a}
+
+/* ── PROGRESS ── */
+.prog-wrap{margin-bottom:16px}
+.prog-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px}
+.prog-track{background:var(--border);border-radius:3px;height:5px;overflow:hidden}
+.prog-bar{height:100%;background:var(--orange);border-radius:3px;transition:width .4s}
+
+/* ── CARD ── */
+.card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+.card-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border-bottom:0.5px solid var(--border);cursor:pointer;user-select:none;transition:background .15s}
+.card-hdr:hover{background:#F1F5F9}
+.card-hdr.open{background:var(--white)}
+.card-pip{width:3px;height:22px;border-radius:2px;flex-shrink:0}
+.card-title{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.card-subtitle{font-size:10.5px;color:var(--text3);font-weight:400}
+.card-badge{font-size:10px;padding:2px 9px;border-radius:12px;background:var(--border);color:var(--text3);flex-shrink:0}
+.card-badge.done{background:var(--green-lt);color:var(--green);border:0.5px solid var(--green-mid)}
+.card-badge.partial{background:var(--amber-lt);color:var(--amber);border:0.5px solid var(--gold-mid)}
+.chevron{font-size:16px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.chevron.open{transform:rotate(180deg)}
+.card-body{padding:14px 16px;display:none}
+.card-body.open{display:block}
+
+/* ── INFO GRID ── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info-grid .full{grid-column:1/-1}
+.field-wrap{display:flex;flex-direction:column;gap:4px}
+.field-label{font-size:11px;font-weight:500;color:var(--text2)}
+.req{color:var(--red)}
+input[type=text],input[type=email],input[type=number],select,textarea{
+  font-family:'Prompt',sans-serif;font-size:12.5px;color:var(--text);
+  background:var(--white);width:100%;
+  border:0.5px solid var(--border2);border-radius:var(--r);
+  padding:8px 11px;outline:none;transition:border-color .15s,box-shadow .15s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,101,26,.1)}
+input::placeholder,textarea::placeholder{color:var(--text3)}
+
+/* ── SUBSECTION ── */
+.sub-label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);padding:8px 0 6px;display:flex;align-items:center;gap:7px;margin-top:2px}
+.sub-label::after{content:'';flex:1;height:0.5px;background:var(--border)}
+
+/* ── QUESTION ROW ── */
+.q-row{border:0.5px solid var(--border);border-radius:var(--r);padding:11px 12px;margin-bottom:7px;transition:border-color .15s,background .15s;background:var(--white)}
+.q-row.ans-yes{border-color:var(--green-mid);background:var(--green-lt)}
+.q-row.ans-partial{border-color:var(--amber-mid);background:var(--amber-lt)}
+.q-row.ans-no{border-color:var(--border2);background:var(--white)}
+.q-row.ans-na{border-color:#9CA3AF;background:#F3F4F6}
+.q-top{display:flex;gap:7px;align-items:flex-start;margin-bottom:8px}
+.risk-tag{font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:2px;letter-spacing:.04em}
+.risk-H{background:#FEE2E2;color:#991B1B}
+.risk-M{background:#FEF3C7;color:#92400E}
+.risk-L{background:#D1FAE5;color:#065F46}
+.q-num{font-size:10.5px;color:var(--text3);flex-shrink:0;margin-top:2px;font-weight:500}
+.q-text{font-size:12.5px;color:var(--text);line-height:1.55}
+.ans-row{display:flex;gap:5px;flex-wrap:wrap}
+.ans-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:16px;border:0.5px solid var(--border2);background:var(--white);font-family:'Prompt',sans-serif;font-size:11.5px;color:var(--text2);cursor:pointer;transition:all .15s}
+.ans-btn:hover{border-color:var(--orange);color:var(--orange);background:var(--orange-lt)}
+.ans-btn.sel-yes{background:var(--green);border-color:var(--green);color:white;font-weight:500}
+.ans-btn.sel-partial{background:var(--amber);border-color:var(--amber);color:white;font-weight:500}
+.ans-btn.sel-no{background:var(--red);border-color:var(--red);color:white;font-weight:500}
+.ans-btn.sel-na{background:#6B7280;border-color:#6B7280;color:white;font-weight:500}
+
+/* ── FOOTER BAR ── */
+.footer-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:0.5px solid var(--border);padding:11px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.07)}
+.footer-note{font-size:11.5px;color:var(--text3);display:flex;align-items:center;gap:5px}
+.footer-note span{color:var(--orange);font-weight:500}
+.btns{display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);font-family:'Prompt',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+.btn-ghost{background:transparent;color:var(--text2);border:0.5px solid var(--border2)}
+.btn-ghost:hover{background:var(--surface)}
+.btn-primary{background:var(--orange);color:white;box-shadow:0 2px 8px rgba(232,101,26,.3)}
+.btn-primary:hover{background:var(--orange2);box-shadow:0 4px 16px rgba(232,101,26,.35)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── SUCCESS ── */
+#success-screen{display:none;text-align:center;background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:3rem 2rem;box-shadow:var(--shadow);margin-top:1.5rem}
+.success-icon{width:72px;height:72px;border-radius:50%;background:var(--green-lt);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;border:2px solid var(--green-mid)}
+.success-icon i{font-size:32px;color:var(--green)}
+.score-ring{width:110px;height:110px;border-radius:50%;border:5px solid var(--orange-mid);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:16px auto}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:80px;right:20px;background:var(--navy);color:white;padding:11px 16px;border-radius:var(--r);font-size:12.5px;font-weight:500;z-index:500;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:7px;box-shadow:var(--shadow)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+
+/* ── UPLOAD ZONE ── */
+.up-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:9px 12px;background:var(--surface);transition:all .2s;margin-top:8px}
+.up-zone:hover{border-color:var(--orange);background:var(--orange-lt)}
+.up-zone.uploaded{border-color:var(--green-mid);border-style:solid;background:var(--green-lt)}
+.up-zone.uploading{border-color:var(--orange);border-style:solid;background:var(--orange-lt)}
+.up-zone.missing{border-color:var(--red-mid);border-style:solid;background:var(--red-lt)}
+.up-inner{display:flex;align-items:center;gap:9px}
+.up-ico{width:28px;height:28px;border-radius:var(--r);background:var(--white);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.up-ico i{font-size:14px;color:var(--text3)}
+.up-txt strong{font-size:12px;color:var(--text);display:block}
+.up-txt p{font-size:10.5px;color:var(--text3);margin-top:1px}
+.up-cta{margin-left:auto;padding:5px 12px;border-radius:var(--r);border:0.5px solid var(--orange);background:var(--white);font-family:'Prompt',sans-serif;font-size:11.5px;color:var(--orange);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.up-cta:hover{background:var(--orange);color:white}
+.up-cta.ghost{border-color:var(--border2);color:var(--text2)}
+.up-prog{background:var(--border);border-radius:2px;height:3px;overflow:hidden;margin-top:7px}
+.up-prog-fill{height:100%;background:var(--orange);border-radius:2px;transition:width .25s}
+.f-chip{display:flex;align-items:center;gap:7px;padding:5px 9px;background:var(--white);border:0.5px solid var(--green-mid);border-radius:var(--r);margin-top:6px}
+.f-chip i{font-size:14px;flex-shrink:0}
+.f-chip .f-name{font-size:11.5px;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f-chip .f-size{font-size:10px;color:var(--text3);flex-shrink:0}
+.f-chip .f-link{font-size:11px;color:var(--blue);text-decoration:none;flex-shrink:0;display:flex;align-items:center;gap:3px}
+.f-chip .f-link:hover{text-decoration:underline}
+.f-chip .f-del{border:none;background:none;color:var(--text3);cursor:pointer;font-size:13px;padding:0;flex-shrink:0;line-height:1}
+.f-chip .f-del:hover{color:var(--red)}
+.ev-hint{background:var(--gold-lt);border:0.5px solid var(--gold-mid);border-radius:var(--r);padding:6px 10px;margin-top:6px}
+.ev-title{font-size:10px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.ev-tags{display:flex;flex-wrap:wrap;gap:3px}
+.ev-tag{font-size:10.5px;background:var(--white);border:0.5px solid var(--gold-mid);color:var(--gold);padding:2px 7px;border-radius:10px}
+
+/* ── PREVIEW MODAL ── */
+.preview-overlay{
+  position:fixed;inset:0;background:rgba(15,23,42,.75);
+  z-index:800;display:flex;align-items:center;justify-content:center;
+  padding:16px;backdrop-filter:blur(4px);
+}
+.preview-modal{
+  background:var(--white);border-radius:var(--rlg);
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  width:100%;max-width:820px;max-height:90vh;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.preview-header{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;border-bottom:0.5px solid var(--border);
+  flex-shrink:0;background:var(--surface);
+}
+.preview-header .ph-icon{font-size:20px;flex-shrink:0}
+.preview-header .ph-name{font-size:13px;font-weight:500;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview-header .ph-size{font-size:11px;color:var(--text3);flex-shrink:0}
+.preview-body{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.preview-body iframe{width:100%;flex:1;border:none;min-height:500px}
+.preview-body .preview-img-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:16px;background:#1e293b}
+.preview-body .preview-img-wrap img{max-width:100%;max-height:70vh;border-radius:var(--r);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.preview-footer{
+  display:flex;align-items:center;justify-content:flex-end;gap:8px;
+  padding:10px 16px;border-top:0.5px solid var(--border);
+  flex-shrink:0;background:var(--surface);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){.info-grid{grid-template-columns:1fr}.hdr-prog{display:none}.body-wrap{padding:16px 14px 100px}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="logo">
+      <div class="logo-row"><span class="logo-hi">HI-</span><span class="logo-tech">TECH</span></div>
+      <span class="logo-sub">Apparel</span>
+    </div>
+    <div class="hdr-div"></div>
+    <div class="hdr-info">
+      <h1>SVAP Self-Assessment — แบบประเมินตนเองด้านแรงงาน สุขภาพ ความปลอดภัย สิ่งแวดล้อม และจริยธรรม</h1>
+      <p>สำหรับ Suppliers / Subcontractors / Vendors &nbsp;·&nbsp; อ้างอิง: SVAP (Specialty Validated Assessment Program), The Social and Labor Convergence Program (SLCP) และ Nike Facility Code of Conduct</p>
+    </div>
+    <div class="hdr-prog">
+      <span class="hdr-prog-lbl" id="prog-txt">0 / 88 คำถาม</span>
+      <div class="hdr-prog-track"><div class="hdr-prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="body-wrap">
+  <div class="notice">
+    <i class="ti ti-info-circle"></i>
+    <div><strong>คำชี้แจง:</strong> โปรดกรอกข้อมูลและตอบคำถามต่อไปนี้อย่างครบถ้วนและตรงตามข้อเท็จจริง เพื่อช่วยให้บริษัทสามารถประเมินความสอดคล้องของท่านกับมาตรฐาน RBA และมาตรฐานสากล ความสัมพันธ์ทางธุรกิจอาจสิ้นสุดลงหากปฏิเสธการตรวจสอบ หรือไม่แก้ไขการละเมิดที่ตรวจพบ</div>
+  </div>
+
+  <div id="form-area">
+    <div class="prog-wrap">
+      <div class="prog-labels"><span>ความคืบหน้า</span><span id="prog-count">0 / 88 คำถาม</span></div>
+      <div class="prog-track"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr open" onclick="toggleCard('s1')">
+        <div class="card-pip" style="background:var(--blue)"></div>
+        <div style="flex:1"><div class="card-title"><i class="ti ti-building-community"></i> ส่วนที่ 1 — ข้อมูลพื้นฐานของผู้จัดจำหน่าย</div></div>
+        <span class="card-badge done">จำเป็น</span>
+        <i class="ti ti-chevron-down chevron open" id="chev-s1"></i>
+      </div>
+      <div class="card-body open" id="body-s1">
+        <div class="info-grid">
+          <div class="field-wrap full"><label class="field-label">ชื่อบริษัท / ผู้จัดจำหน่าย <span class="req">*</span></label><input id="co-name" type="text" placeholder="กรอกชื่อบริษัทหรือร้านค้า"></div>
+          <div class="field-wrap full"><label class="field-label">ที่อยู่สำนักงานใหญ่ <span class="req">*</span></label><textarea id="co-addr" rows="2" placeholder="ที่อยู่สำนักงานใหญ่" style="resize:vertical"></textarea></div>
+          <div class="field-wrap"><label class="field-label">ประเภทธุรกิจ / บริการหลัก <span class="req">*</span></label><input id="co-type" type="text" placeholder="เช่น ผู้รับเหมา, ตัวแทนแรงงาน"></div>
+          <div class="field-wrap"><label class="field-label">สถานที่ปฏิบัติงาน / โรงงาน (ที่ตั้งที่ 1) <span class="req">*</span></label><input id="co-site1" type="text" placeholder="ที่อยู่โรงงาน"></div>
+          <div class="field-wrap"><label class="field-label">ชื่อผู้ติดต่อ (ผู้รับผิดชอบ) <span class="req">*</span></label><input id="co-contact" type="text" placeholder="ชื่อ-นามสกุล"></div>
+          <div class="field-wrap"><label class="field-label">ตำแหน่ง <span class="req">*</span></label><input id="co-position" type="text" placeholder="ตำแหน่งงาน"></div>
+          <div class="field-wrap"><label class="field-label">อีเมล <span class="req">*</span></label><input id="co-email" type="email" placeholder="email@company.com"></div>
+          <div class="field-wrap"><label class="field-label">เบอร์โทรศัพท์ <span class="req">*</span></label><input id="co-phone" type="text" placeholder="08X-XXX-XXXX"></div>
+          <div class="field-wrap"><label class="field-label">จำนวนพนักงานที่ว่าจ้างโดยตรง <span class="req">*</span></label><input id="co-emp" type="number" min="0" placeholder="0"></div>
+          <div class="field-wrap"><label class="field-label">จำนวนพนักงานสัญญาจ้าง (ผ่านตัวแทน) <span class="req">*</span></label><input id="co-emp2" type="number" min="0" placeholder="0"></div>
+          <div class="field-wrap"><label class="field-label">จำนวนพนักงานข้ามชาติ / แรงงานต่างด้าว <span class="req">*</span></label><input id="co-migrant" type="number" min="0" placeholder="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="questions-area"></div>
+  </div>
+
+  <div id="success-screen">
+    <div class="success-icon"><i class="ti ti-circle-check"></i></div>
+    <h2 style="font-size:19px;font-weight:600;margin-bottom:6px">ส่งแบบประเมินสำเร็จ!</h2>
+    <div class="score-ring">
+      <span id="final-score" style="font-size:30px;font-weight:600;color:var(--orange)">0</span>
+      <span style="font-size:11px;color:var(--text3)">คะแนน %</span>
+    </div>
+    <p id="final-grade" style="font-size:14px;margin-bottom:6px"></p>
+    <p style="font-size:12px;color:var(--text3)">ขอบคุณสำหรับการตอบแบบประเมิน ทีมงาน HI-TECH APPAREL จะตรวจสอบและติดต่อกลับหากมีข้อสงสัย</p>
+    <button class="btn btn-ghost" style="margin-top:20px" onclick="location.reload()"><i class="ti ti-refresh"></i> ส่งบริษัทอื่น</button>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <div class="footer-note"><i class="ti ti-device-floppy"></i> ตอบแล้ว <span id="foot-count">0</span> / 88 คำถาม</div>
+  <div class="btns">
+    <button class="btn btn-ghost" onclick="saveDraft()"><i class="ti ti-device-floppy"></i> บันทึกร่าง</button>
+    <button class="btn btn-ghost" onclick="clearAll()"><i class="ti ti-trash"></i> ล้างข้อมูล</button>
+    <button class="btn btn-primary" id="submit-btn" onclick="handleSubmit()"><i class="ti ti-send"></i> ส่งแบบประเมิน</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7G_NAqp6bTtZv9LR4P3Orqbq7RKOVvmgt8C5E6j0MgvCYrpufIo0nVWBC_ppH8sDUBw/exec";
+
+const SECTIONS = [
+  {id:'s2',title:'ส่วนที่ 2 — หมวดแรงงาน (Labor)',icon:'ti-users',color:'#E8651A',
+   subsections:[
+    {title:'หัวข้อ 1: นโยบายการป้องกันแรงงานบังคับ',questions:[
+      {id:'1.1',text:'บริษัทมีนโยบายเป็นลายลักษณ์อักษรในการป้องกันการใช้แรงงานบังคับ แรงงานค้ามนุษย์ แรงงานในเรือนจำ แรงงานผูกพัน แรงงานทาส หรือแรงงานรูปแบบอื่นที่ไม่เป็นไปโดยสมัครใจ ทั้งในการดำเนินงานและห่วงโซ่อุปทาน',risk:'H',ev:'นโยบายลงนามโดยผู้บริหาร, Code of Conduct'},
+      {id:'1.2',text:'นโยบายระบุชัดเจนว่าแรงงานไม่ต้องรับผิดชอบค่าใช้จ่ายใดๆ ที่เกี่ยวกับการสรรหาและการจ้างงาน (Employer Pays Principle)',risk:'H',ev:'นโยบายการสรรหา, สัญญาจ้าง'},
+      {id:'1.3',text:'นายจ้างชำระค่าธรรมเนียมสรรหาและค่าใช้จ่ายที่เกี่ยวข้องทั้งหมด และชดเชยนายหน้าแรงงานอย่างเพียงพอเพื่อไม่ให้ผลักภาระไปยังแรงงาน',risk:'H',ev:'ใบเสร็จ/หลักฐานการชำระเงิน, สัญญากับนายหน้า'},
+    ]},
+    {title:'หัวข้อ 2: การจ้างงานด้วยความสมัครใจและการป้องกันค่าธรรมเนียม',questions:[
+      {id:'2.1',text:'บริษัทจัดหาแรงงานมีใบอนุญาตถูกต้องและทันสมัยในการจัดหาแรงงานข้ามชาติทั้งในประเทศต้นทางและปลายทาง',risk:'H',ev:'ใบอนุญาต, หนังสือจดทะเบียนกระทรวง'},
+      {id:'2.2',text:'บริษัทมีการสัมภาษณ์แรงงานใหม่เพื่อยืนยันว่าไม่ได้จ่ายค่าธรรมเนียมหรือค่าใช้จ่ายสำหรับการจ้างงาน',risk:'H',ev:'บันทึกการสัมภาษณ์แรงงาน, เอกสารยืนยัน'},
+      {id:'2.3',text:'หากพบว่าแรงงานจ่ายค่าธรรมเนียม บริษัทมีกระบวนการคืนเงินภายใน 30 วัน นับแต่วันที่ทราบข้อมูล',risk:'H',ev:'หลักฐานการคืนเงิน, ใบเสร็จ, ระเบียบการเยียวยา'},
+      {id:'2.4',text:'แรงงานควบคุมบัญชีธนาคารของตนเองได้อย่างเต็มที่ ไม่ถูกปฏิเสธการเข้าถึงหรือถูกกีดกันการส่งเงินกลับบ้าน',risk:'H',ev:'เอกสารธนาคาร, การสัมภาษณ์แรงงาน'},
+      {id:'2.5',text:'ไม่มีการบังคับให้แรงงานเข้าร่วมโครงการออมทรัพย์ที่หักจากเงินเดือนโดยอัตโนมัติ',risk:'H',ev:'นโยบายการเงิน, สัญญาจ้าง'},
+      {id:'2.6',text:'เงินกู้หรือเงินสดล่วงหน้าที่นายจ้างให้แก่แรงงาน มียอดหนี้รวมไม่เกิน 50% ของค่าจ้างรายเดือน และชำระคืนไม่เกิน 10% ต่อเดือน',risk:'H',ev:'เอกสารสัญญาเงินกู้, บัญชีหักเงินเดือน'},
+      {id:'2.7',text:'เงื่อนไขสินเชื่อหรือการเบิกเงินล่วงหน้ามีการชี้แจงให้แรงงานเข้าใจชัดเจน และไม่กำหนดให้แรงงานต้องอยู่ทำงานจนกว่าจะชำระหนี้ครบ',risk:'H',ev:'สัญญาเงินกู้, หลักฐานการอธิบาย'},
+      {id:'2.8',text:'ประกาศรับสมัครงานระบุชัดเจนว่าไม่มีการเก็บค่าธรรมเนียมการจัดหางาน',risk:'H',ev:'ประกาศรับสมัครงาน, สื่อออนไลน์'},
+    ]},
+    {title:'หัวข้อ 3: การจัดการบุคคลที่สาม (Third Party Management)',questions:[
+      {id:'3.1',text:'บริษัทดำเนินการตรวจสอบสถานะ (Due Diligence) ของนายหน้าแรงงานและผู้ให้บริการภายนอกก่อนเข้าทำสัญญาทางธุรกิจ',risk:'H',ev:'รายงาน Due Diligence, บันทึกการตรวจสอบ'},
+      {id:'3.2',text:'บริษัทมีสัญญาให้บริการกับนายหน้าแรงงานที่กำหนดให้ปฏิบัติตามกฎหมายและข้อกำหนดของลูกค้า รวมถึงข้อกำหนดสำหรับแรงงานข้ามชาติ',risk:'H',ev:'สัญญาบริการ, ข้อกำหนดการปฏิบัติตาม'},
+      {id:'3.3',text:'บริษัทดำเนินการประเมินนายหน้าแรงงานและผู้ให้บริการภายนอกทุกปี เพื่อให้มั่นใจว่าปฏิบัติตามข้อกำหนด และมีกระบวนการแก้ไขหากพบการละเมิด',risk:'H',ev:'รายงานการประเมินประจำปี, บันทึก CAR/CAPA'},
+      {id:'3.4',text:'บริษัทมีการสื่อสารนโยบายและข้อกำหนดไปยัง Sub Agent และตรวจสอบการปฏิบัติตาม',risk:'M',ev:'บันทึกการอบรม, แบบสอบถาม Sub Agent'},
+    ]},
+    {title:'หัวข้อ 4: สัญญาจ้างงานและข้อกำหนดทางกฎหมาย',questions:[
+      {id:'4.1',text:'บริษัทมีระบบที่มีประสิทธิภาพในการออกและต่ออายุใบอนุญาตทำงาน หนังสือเดินทาง และเอกสารทางกฎหมายที่จำเป็นสำหรับแรงงานต่างชาติอย่างทันเวลา',risk:'H',ev:'Passport, Work Permit, Visa, ระบบติดตามเอกสาร'},
+      {id:'4.2',text:'แรงงานต่างชาติทุกคนมีเอกสารทางกฎหมายครบถ้วนสำหรับการทำงานและพักอาศัยในประเทศผู้รับ',risk:'H',ev:'พาสปอร์ต, ใบอนุญาตทำงาน, วีซ่า'},
+      {id:'4.3',text:'นายจ้างมอบสัญญาจ้างเป็นลายลักษณ์อักษรให้แก่แรงงานในภาษาที่แรงงานเข้าใจ ก่อนลงนาม และให้สำเนาสัญญาแก่แรงงาน',risk:'H',ev:'สัญญาจ้าง 3 ภาษา, หลักฐานลงนาม, เอกสารรับสำเนา'},
+      {id:'4.4',text:'สัญญาจ้างระบุเงื่อนไขและสภาพการจ้างงานที่กฎหมายกำหนด และสิทธิหน้าที่ของแรงงานอย่างครบถ้วน',risk:'H',ev:'สัญญาจ้าง, รายการเนื้อหาสัญญา'},
+      {id:'4.5',text:'การแก้ไขสัญญาหรือสัญญาเพิ่มเติมต้องเป็นประโยชน์ต่อแรงงานเท่ากันหรือมากกว่า และอธิบายให้แรงงานเข้าใจก่อนลงนาม',risk:'H',ev:'เอกสารแสดงความยินยอม, สัญญาแก้ไข'},
+      {id:'4.6',text:'แรงงานมีสิทธิ์บอกเลิกสัญญาโดยแจ้งล่วงหน้าไม่เกิน 30 วัน (หรือตามกฎหมาย) โดยไม่มีค่าปรับหรือการตอบโต้',risk:'H',ev:'นโยบายการลาออก, สัญญาจ้าง'},
+      {id:'4.7',text:'แรงงานได้รับสำเนาสัญญาจ้างก่อนออกเดินทางจากประเทศต้นทาง อย่างน้อย 5 วัน และมีเวลาเพียงพอในการพิจารณาก่อนลงนาม',risk:'H',ev:'สำเนาสัญญาจ้าง, บันทึกการรับเอกสาร'},
+      {id:'4.8',text:'สัญญาจ้างไม่เปลี่ยนแปลงเมื่อแรงงานเดินทางมาถึงประเทศผู้รับ เว้นแต่เป็นไปเพื่อให้สอดคล้องกับกฎหมายท้องถิ่นหรือกำหนดเงื่อนไขที่ดีกว่า',risk:'H',ev:'สัญญาจ้างต้นทาง-ปลายทาง (เปรียบเทียบ)'},
+    ]},
+    {title:'หัวข้อ 5: การรับรู้สิทธิและการสื่อสารกับแรงงาน',questions:[
+      {id:'5.1',text:'กฎระเบียบบริษัท and กฎหมายแรงงานติดประกาศในสถานที่ทำงาน และแรงงานได้รับคู่มือพนักงาน',risk:'M',ev:'ภาพถ่ายป้ายประกาศ, คู่มือพนักงาน (หลายภาษา)'},
+      {id:'5.2',text:'บริษัทจัดฝึกอบรมปฐมนิเทศก่อนออกเดินทาง (PDO) ให้แรงงานข้ามชาติ ครอบคลุมสิทธิแรงงาน เงื่อนไขสัญญา สภาพความเป็นอยู่ และกลไกร้องทุกข์',risk:'H',ev:'Agenda PDO, ใบลงทะเบียน, รูปกิจกรรม, คู่มือภาษาต้นทาง'},
+      {id:'5.3',text:'บริษัทจัดอบรมปฐมนิเทศหลังเดินทางมาถึงก่อนเริ่มทำงาน ครอบคลุมนโยบายและขั้นตอนทั้งหมด และมีการฝึกอบรมทบทวนประจำปี',risk:'H',ev:'บันทึกอบรม, แผนอบรมประจำปี, ใบลงชื่อเข้าอบรม'},
+      {id:'5.4',text:'การสื่อสารและการฝึกอบรมจัดทำในภาษาและระดับความเข้าใจของแรงงาน และบริษัทรับข้อเสนอแนะเพื่อปรับปรุงเนื้อหา',risk:'M',ev:'คู่มือหลายภาษา, แบบทดสอบหลังอบรม, แบบประเมินการฝึก'},
+      {id:'5.5',text:'บริษัทสอบถามความคิดเห็นแรงงานอย่างสม่ำเสมอผ่านช่องทางต่างๆ เช่น แบบสอบถาม และการสนทนาแบบเปิดกับผู้บริหาร',risk:'M',ev:'ผลสำรวจความพึงพอใจ, บันทึกการประชุมแรงงาน'},
+      {id:'5.6',text:'บริษัทมีการสื่อสารช่องทางการร้องทุกข์ (Grievance Channel) ให้แรงงานทราบ รวมถึงช่องทางการร้องทุกข์แบบไม่ระบุชื่อ หรือการไม่เปิดเผยตัวตน',risk:'M',ev:'โปสเตอร์/QR Code, บันทึกการร้องเรียน, นโยบายไม่ตอบโต้'},
+    ]},
+    {title:'หัวข้อ 6: เสรีภาพในการเคลื่อนไหว',questions:[
+      {id:'6.1',text:'แรงงานเก็บเอกสารส่วนตัวของตนเอง (หนังสือเดินทาง บัตรประชาชน ใบอนุญาต) และมีตู้เก็บของส่วนตัวที่ล็อกได้และเข้าถึงได้ตลอดเวลา',risk:'H',ev:'การสัมภาษณ์แรงงาน, ภาพถ่ายตู้เก็บ'},
+      {id:'6.2',text:'ไม่มีข้อจำกัดที่ไม่สมเหตุสมผลในการเข้า-ออกสถานที่ทำงานหรือที่พัก รวมถึงการกำหนดเคอร์ฟิว',risk:'H',ev:'กฎระเบียบ/คู่มือพนักงาน, การสัมภาษณ์แรงงาน'},
+      {id:'6.3',text:'แรงงานเข้าถึงสิ่งจำเป็นพื้นฐานได้ตลอดเวลา ได้แก่ น้ำดื่มและห้องน้ำ',risk:'H',ev:'ภาพถ่าย, การสังเกตสถานที่'},
+    ]},
+    {title:'หัวข้อ 7: แรงงานเยาวชนและนักศึกษา',questions:[
+      {id:'7.1',text:'มีนโยบายและขั้นตอนที่มีประสิทธิภาพในการป้องกันการจ้างงานแรงงานที่มีอายุต่ำกว่าเกณฑ์ (ต่ำกว่า 16 ปีหรือตามที่กฎหมายกำหนด หรือตามข้อกำหนดมาตรฐานอื่นที่สูงกว่า) ทั้งทางตรงและผ่านนายหน้า',risk:'H',ev:'นโยบายลงนาม, SOP ตรวจสอบอายุ, ตัวอย่างเอกสารพิสูจน์ตัวตน'},
+      {id:'7.2',text:'บริษัทไม่จ้างแรงงานที่อายุต่ำกว่าเกณฑ์ขั้นต่ำตามกฎหมายหรือข้อกำหนดของลูกค้า',risk:'H',ev:'รายชื่อพนักงาน, บัญชีตรวจสอบอายุ'},
+      {id:'7.3',text:'แรงงานที่อายุต่ำกว่า 18 ปี ไม่ได้รับมอบหมายให้ทำงานอันตราย งานกลางคืน หรือทำงานล่วงเวลา',risk:'H',ev:'บัญชีงานอันตราย (Hazardous Work List), Job Safety Analysis'},
+      {id:'7.4',text:'บริษัทมีแผนการเยียวยากรณีพบแรงงานที่อายุต่ำกว่าเกณฑ์',risk:'H',ev:'SOP/นโยบายการเยียวยา'},
+      {id:'7.5',text:'กรณีเปิดให้มีนักศึกษาฝึกงาน หรือการฝึกอาชีพ มีขั้นตอนที่มีประสิทธิภาพเพื่อให้สอดคล้องกับข้อกำหนดและวัตถุประสงค์การเรียนรู้',risk:'H',ev:'สัญญาฝึกงาน, แผนการเรียนรู้'},
+    ]},
+    {title:'หัวข้อ 8: ชั่วโมงการทำงาน',questions:[
+      {id:'8.1',text:'ชั่วโมงการทำงานปกติไม่เกิน 48 ชั่วโมงต่อสัปดาห์หรือตามกฎหมายที่เข้มงวดกว่า และชั่วโมงทำงานล่วงเวลาไม่เกิน 12 ชั่วโมงต่อสัปดาห์ หรือกำหนดชั่วโมงทำงานไม่เกิน 60 ชั่วโมงต่อสัปดาห์ บริษัทมีระบบบันทึกและควบคุมชั่วโมงทำงาน',risk:'H',ev:'ตารางงาน, บันทึกเวลา, รายงานชั่วโมงทำงาน'},
+      {id:'8.2',text:'แรงงานให้ความยินยอมโดยสมัครใจในการทำงานล่วงเวลา และไม่ถูกลงโทษหากปฏิเสธ',risk:'H',ev:'นโยบาย OT, แบบฟอร์มยินยอม OT, บันทึก HR'},
+      {id:'8.3',text:'แรงงานได้รับวันหยุดอย่างน้อย 1 วัน (24 ชั่วโมงติดต่อกัน) ทุก 7 วัน และเมื่อเปลี่ยนกะงาน',risk:'H',ev:'Payroll, Timesheet, ตารางกะ'},
+      {id:'8.4',text:'ไม่มีการทำงานนอกเวลาหรือทำงานที่บ้านที่ไม่เป็นทางการ (ยกเว้นกรณีที่บริษัทมีนโยบาย Work from Home ที่ได้รับอนุมัติตามกฎหมาย)',risk:'M',ev:'นโยบาย, บันทึกการทำงานจากบ้าน'},
+      {id:'8.5',text:'แรงงานได้รับวันหยุดและวันลาตามกฎหมาย ได้แก่ วันหยุดประจำปี วันหยุดนักขัตฤกษ์ การลาป่วย และการลาคลอด',risk:'H',ev:'Payroll, ใบลา, นโยบายการลา'},
+    ]},
+    {title:'หัวข้อ 9: ค่าจ้างและสวัสดิการ',questions:[
+      {id:'9.1',text:'ค่าจ้างสำหรับชั่วโมงปกติและชั่วโมงล่วงเวลาคำนวณถูกต้องและจ่ายให้แรงงานทุกคนตามกฎหมาย',risk:'H',ev:'Payroll, ใบโอนจ่ายเงิน, บันทึกเวลา'},
+      {id:'9.2',text:'บริษัทมีระบบการจ่ายค่าจ้างตามผลงาน (Piece-Rate) โดยรับรองการจ่ายค่าจ้างขั้นต่ำตามกฎหมายให้แก่ลูกจ้างทุกคนในกรณีที่ผลงานไม่บรรลุเป้าหมาย และรับรองการจ่ายค่าล่วงเวลา (OT) สำหรับชั่วโมงที่ทำล่วงเวลาอย่างถูกต้องตามพระราชบัญญัติคุ้มครองแรงงาน',risk:'H',ev:'นโยบายโควต้า, Payroll'},
+      {id:'9.3',text:'แรงงานได้รับสลิปเงินเดือนที่เข้าใจง่าย เป็นภาษาของแรงงาน และครอบคลุมข้อมูลที่จำเป็นในการตรวจสอบความถูกต้อง',risk:'H',ev:'สลิปเงินเดือน (ตัวอย่าง), คู่มืออ่านสลิป'},
+      {id:'9.4',text:'ค่าจ้างจ่ายให้แรงงานตรงเวลาอย่างน้อยทุกเดือน หรือบ่อยกว่าตามที่กฎหมายกำหนด ไม่ล่าช้าหรือถูกอายัด',risk:'H',ev:'หลักฐานการโอนเงิน, Payroll'},
+      {id:'9.5',text:'การหักค่าจ้างถูกต้องตามกฎหมาย สัญญาจ้าง หรือตามคำร้องขอของแรงงาน และไม่หักเพื่อการลงโทษ',risk:'H',ev:'Payroll, ระเบียบวินัย, สัญญาจ้าง'},
+      {id:'9.6',text:'นายจ้างจัดหาสวัสดิการตามกฎหมายครบถ้วน เช่น ประกันสังคม กองทุนเงินทดแทน กองทุนสงเคราะห์ลูกจ้าง และสวัสดิการอื่นๆ ตามสัญญา',risk:'H',ev:'เอกสารประกันสังคม, กองทุนเงินทดแทน, ใบลา'},
+    ]},
+    {title:'หัวข้อ 10: การปฏิบัติอย่างเป็นธรรมและมีมนุษยธรรม',questions:[
+      {id:'10.1',text:'มีนโยบายและขั้นตอนที่มีประสิทธิภาพในการป้องกันและตอบสนองต่อการคุกคามและการปฏิบัติที่ไม่เหมาะสม รวมถึงการล่วงละเมิดทางเพศ การลงโทษทางร่างกาย การบังคับทางจิตใจ และคำพูดที่รุนแรง',risk:'H',ev:'นโยบาย, คู่มือพนักงาน, หลักฐานการสื่อสาร'},
+      {id:'10.2',text:'ขั้นตอนการลงโทษทางวินัยเป็นมนุษยธรรม มีการให้คำเตือนเป็นลำดับขั้น และไม่รวมถึงการหักค่าจ้างเพื่อเหตุผลทางวินัย',risk:'H',ev:'ระเบียบวินัย, บันทึกการลงโทษ, หลักฐานการทบทวนโดย HR'},
+      {id:'10.3',text:'มีการรับรองนโยบายต่อต้านการเลือกปฏิบัติ ครอบคลุมการสรรหา ค่าจ้าง สวัสดิการ การเลื่อนตำแหน่ง การลงโทษ การเลิกจ้าง',risk:'H',ev:'นโยบาย EEO, สถิติความหลากหลาย, รายงานร้องเรียน'},
+      {id:'10.4',text:'บริษัทไม่เลือกปฏิบัติต่อแรงงานโดยอิงจากสถานะการตั้งครรภ์หรือการให้นม และไม่ห้ามหรือกีดกันแรงงานจากการตั้งครรภ์',risk:'H',ev:'นโยบาย, กรณีตัวอย่าง, การสัมภาษณ์แรงงาน'},
+      {id:'10.5',text:'บริษัทจัดสิ่งอำนวยความสะดวกสำหรับการปฏิบัติทางศาสนาของแรงงานอย่างสมเหตุสมผล เช่น ห้องละหมาด เวลาละหมาด',risk:'L',ev:'ภาพถ่าย, บันทึกนโยบาย'},
+    ]},
+    {title:'หัวข้อ 11: เสรีภาพในการสมาคมและการเจรจาต่อรองร่วม',questions:[
+      {id:'11.1',text:'แรงงานมีสิทธิ์เป็นสมาชิกหรือจัดตั้งองค์กรตัวแทนและสหภาพแรงงานที่ตนเลือก โดยไม่ถูกคุกคามหรือลงโทษ และบริษัทมีนโยบายที่เคารพสิทธิดังกล่าว',risk:'H',ev:'นโยบาย, บันทึก HR, บันทึกประชุมกับตัวแทนแรงงาน'},
+      {id:'11.2',text:'ไม่มีการแทรกแซงจากฝ่ายบริหารในการดำเนินงานของสหภาพหรือองค์กรแรงงาน และตัวแทนแรงงานมาจากการเลือกตั้งโดยแรงงาน',risk:'H',ev:'บันทึกการเลือกตั้งตัวแทน, บันทึก HR กรณีร้องเรียน'},
+      {id:'11.3',text:'นายจ้างรับรองสิทธิของแรงงานในการรวมกลุ่มและเจรจาต่อรองร่วม และปฏิบัติตามข้อตกลงสภาพการจ้าง',risk:'H',ev:'ข้อตกลงสภาพการจ้าง (ถ้ามี), บันทึกประชุม'},
+    ]},
+    {title:'หัวข้อ 12: กลไกการร้องทุกข์',questions:[
+      {id:'12.1',text:'บริษัทมีระบบรับเรื่องร้องทุกข์ที่มีขั้นตอนชัดเจนเป็นลายลักษณ์อักษรในภาษาของแรงงาน มีช่องทางยื่นร้องทุกข์แบบไม่ระบุตัวตน มีกระบวนการอุทธรณ์ และนโยบายไม่ตอบโต้ผู้ร้องเรียน',risk:'H',ev:'คู่มือร้องเรียน, โปสเตอร์/QR Code, นโยบายไม่ตอบโต้'},
+      {id:'12.2',text:'บริษัทมีกระบวนการติดตามความคืบหน้าของการแก้ไขข้อร้องเรียน แจ้งผู้ร้องเรียน และบันทึกผลการดำเนินการ',risk:'H',ev:'บันทึกการติดตาม, รายงานผล, Log ร้องเรียน'},
+      {id:'12.3',text:'มีกลไกการเยียวยาและส่งต่อให้กับหน่วยงานภายนอกสำหรับกรณีที่เกี่ยวกับการค้ามนุษย์หรือแรงงานบังคับ และมีระบบติดตามผลการเยียวยา',risk:'M',ev:'เอกสารกลไกเยียวยา, ข้อตกลงกับ NGO/หน่วยงานรัฐ, บันทึกติดตาม'},
+    ]},
+  ]},
+  {id:'s3',title:'ส่วนที่ 3 — หมวดสุขภาพและความปลอดภัย (Health & Safety)',icon:'ti-heart-plus',color:'#16A34A',
+   subsections:[
+    {title:'หัวข้อ B1: ที่พักและสิ่งอำนวยความสะดวกแรงงาน',questions:[
+      {id:'B1.1',text:'ที่พักแรงงานสะอาด ปลอดภัย ได้รับการบำรุงรักษาอย่างเหมาะสม และเป็นไปตามมาตรฐานท้องถิ่นและสากล',risk:'H',ev:'รายงานตรวจสุขาภิบาล, ใบอนุญาต, ภาพถ่าย'},
+      {id:'B1.2',text:'โรงอาหาร ห้องครัว และสถานที่เก็บและเตรียมอาหารสะอาด บำรุงรักษาดี และเป็นไปตามกฎสุขอนามัย บริษัทจัดหาน้ำดื่มสะอาดในปริมาณเพียงพอตลอดเวลา',risk:'H',ev:'รายงานตรวจสุขาภิบาล, ใบอนุญาต, ผลตรวจน้ำ'},
+      {id:'B1.3',text:'จำนวนห้องน้ำ/ห้องสุขาเป็นไปตามสัดส่วนแรงงาน และได้รับการดูแลทำความสะอาดอย่างสม่ำเสมอ',risk:'H',ev:'ภาพถ่าย, ตารางทำความสะอาด, อัตราส่วนห้องน้ำต่อแรงงาน'},
+      {id:'B1.4',text:'รถรับ-ส่งแรงงานมีความปลอดภัย ผ่านการตรวจสอบสภาพตามกำหนด',risk:'H',ev:'ตารางบำรุงรักษา, ใบตรวจสภาพ, ประกันภัย'},
+    ]},
+    {title:'หัวข้อ B2: โปรแกรมความปลอดภัยในสถานที่ทำงาน',questions:[
+      {id:'B2.1',text:'มีนโยบายและขั้นตอนด้านสุขภาพและความปลอดภัยที่เป็นลายลักษณ์อักษร มีการทบทวนประจำปีและสื่อสารให้พนักงานทราบ',risk:'H',ev:'นโยบาย/คู่มือความปลอดภัย, หลักฐานการสื่อสาร'},
+      {id:'B2.2',text:'นายจ้างระบุตำแหน่งงานและงานที่มีความเสี่ยง กำจัดอันตราย และจัดหาสิ่งอำนวยความสะดวกที่เหมาะสมให้สตรีมีครรภ์และให้นมบุตร',risk:'H',ev:'การประเมินความเสี่ยง, นโยบายสตรีมีครรภ์, ภาพถ่ายห้องนม'},
+      {id:'B2.3',text:'ความเสี่ยงจากอันตรายต่างๆ ได้รับการประเมินและควบคุมอย่างสม่ำเสมอ ผ่านการออกแบบ การควบคุมทางวิศวกรรมและการบริหาร และขั้นตอนการทำงานที่ปลอดภัย',risk:'H',ev:'Risk Assessment/JHA/JSA, รายงานตรวจความปลอดภัย, แผนควบคุม'},
+      {id:'B2.4',text:'ความเสี่ยงจากอันตรายทางไฟฟ้าได้รับการประเมินและควบคุมอย่างสม่ำเสมอ ผ่านการควบคุมทางวิศวกรรมและการบริหาร',risk:'H',ev:'รายงานตรวจไฟฟ้า, ใบรับรองระบบไฟฟ้า'},
+      {id:'B2.5',text:'พื้นที่ทำงานได้รับการระบายอากาศและควบคุมอุณหภูมิอย่างเหมาะสม ความเสี่ยงด้านการระบายอากาศได้รับการประเมินและควบคุม',risk:'H',ev:'รายงานตรวจวัดสภาพแวดล้อม, ระบบระบายอากาศ'},
+      {id:'B2.6',text:'กรณีที่ไม่สามารถควบคุมอันตรายที่แหล่งกำเนิดได้ แรงงานได้รับและสวมใส่อุปกรณ์ป้องกันส่วนบุคคล (PPE) ที่เหมาะสมโดยไม่มีค่าใช้จ่าย',risk:'H',ev:'ใบเบิก PPE, ภาพถ่าย, บันทึกการตรวจ'},
+      {id:'B2.7',text:'มีการจัดอบรมด้านความปลอดภัยให้พนักงานอย่างสม่ำเสมอ',risk:'H',ev:'บันทึกการอบรม, รายชื่อผู้เข้าอบรม'},
+      {id:'B2.8',text:'แรงงานข้ามชาติได้รับการชี้แจงด้านสุขภาพและความปลอดภัยใน PDO',risk:'M',ev:'บันทึกอบรม PDO, คู่มือภาษาต้นทาง'},
+    ]},
+    {title:'หัวข้อ B3: การเตรียมพร้อมและตอบสนองเหตุฉุกเฉิน',questions:[
+      {id:'B3.1',text:'มีการซ้อมอพยพและตอบสนองต่อเหตุฉุกเฉินสำหรับพนักงานทุกคนอย่างน้อยปีละ 1 ครั้ง',risk:'H',ev:'บันทึกซ้อมอพยพ/ภาพถ่าย, รายงานข้อบกพร่องและการแก้ไข'},
+      {id:'B3.2',text:'มีแผนและโปรแกรมฉุกเฉินที่มีประสิทธิภาพสำหรับเหตุการณ์ที่เกี่ยวกับอัคคีภัยและการอพยพ รวมถึงแปลนหนีไฟ',risk:'H',ev:'แผนฉุกเฉิน, แปลนหนีไฟ, รายงานซ้อม'},
+      {id:'B3.3',text:'มีแผนและโปรแกรมฉุกเฉินที่มีประสิทธิภาพสำหรับอุบัติเหตุ การบาดเจ็บ และการแพร่ระบาดของโรค',risk:'H',ev:'แผนตอบสนองการบาดเจ็บ, ชุดปฐมพยาบาล, แผนโรคระบาด'},
+      {id:'B3.4',text:'บุคลากรตอบสนองเหตุฉุกเฉินได้รับการฝึกอบรมและมีอุปกรณ์ที่เหมาะสม',risk:'H',ev:'ใบรับรองการอบรม, รายการอุปกรณ์ฉุกเฉิน'},
+      {id:'B3.5',text:'อุบัติเหตุและเหตุการณ์ทุกกรณีได้รับการสอบสวนหาสาเหตุที่แท้จริง (Root Cause)',risk:'H',ev:'รายงานสอบสวนอุบัติเหตุ, บันทึก CAR/CAPA'},
+      {id:'B3.6',text:'มีกระบวนการที่มีประสิทธิภาพในการให้การรักษาพยาบาลฉุกเฉินและดูแลต่อเนื่องสำหรับแรงงานที่ได้รับบาดเจ็บหรือเจ็บป่วยจากการทำงาน นายจ้างรับผิดชอบค่ารักษาพยาบาล',risk:'H',ev:'บิลค่ารักษาพยาบาล, กรมธรรม์/สัญญาประกัน'},
+      {id:'B3.7',text:'บริษัทมีมาตรการป้องกันการแพร่ระบาดของโรคติดต่อในสถานที่ทำงานและที่พัก',risk:'H',ev:'แผนป้องกันโรคระบาด, บันทึกมาตรการ COVID-19 หรือโรคอื่นๆ'},
+      {id:'B3.8',text:'มีการประเมินความเสี่ยงการรับสัมผัสอันตรายจากการทำงาน (ไอระเหย ก๊าซ เสียง การยศาสตร์ ฯลฯ) อย่างสม่ำเสมอ',risk:'H',ev:'รายงานตรวจวัดสภาพแวดล้อม, ผลการตรวจสุขภาพ'},
+      {id:'B3.9',text:'เมื่อการรับสัมผัสเกินค่ามาตรฐาน มีการดำเนินการควบคุมทางวิศวกรรมและการบริหารที่เหมาะสม',risk:'H',ev:'แผนควบคุมความเสี่ยง, หลักฐานการดำเนินการแก้ไข'},
+      {id:'B3.10',text:'การควบคุมทางวิศวกรรมด้านสุขภาพและความปลอดภัย ได้รับการบำรุงรักษาป้องกันอย่างสม่ำเสมอ',risk:'H',ev:'ตารางบำรุงรักษา, บันทึกการซ่อมบำรุง'},
+    ]},
+  ]},
+  {id:'s4',title:'ส่วนที่ 4 — หมวดสิ่งแวดล้อม (Environment)',icon:'ti-leaf',color:'#0891B2',
+   subsections:[
+    {title:'หัวข้อ C1: การจัดการสิ่งแวดล้อม',questions:[
+      {id:'C1.1',text:'บริษัทปฏิบัติตามกฎหมายและข้อบังคับด้านสิ่งแวดล้อมที่เกี่ยวข้องทั้งหมด',risk:'H',ev:'ใบอนุญาตสิ่งแวดล้อม, รายงานตรวจสอบ, ทะเบียนกฎหมาย'},
+      {id:'C1.2',text:'มีระบบการจัดการขยะ ของเสีย และสารอันตรายอย่างเหมาะสมและเป็นมิตรต่อสิ่งแวดล้อม',risk:'H',ev:'บันทึกการกำจัดของเสีย, ใบอนุญาตกำจัด, ข้อมูลผู้รับจำกัดของเสีย'},
+      {id:'C1.3',text:'บริษัทมีแผนการลดการใช้พลังงานและน้ำที่เป็นลายลักษณ์อักษรและมีเป้าหมายชัดเจน',risk:'M',ev:'เอกสารโครงการลดพลังงาน/น้ำ, เป้าหมาย KPI'},
+      {id:'C1.4',text:'มีการควบคุมการปล่อยมลพิษทางอากาศและน้ำตามมาตรฐานกฎหมาย และรายงานต่อหน่วยงานรัฐตามกำหนด',risk:'H',ev:'ผลตรวจคุณภาพปล่อง/น้ำทิ้ง, รายงานส่งหน่วยงานรัฐ'},
+      {id:'C1.5',text:'บริษัทระบุและจัดการผลกระทบด้านสิ่งแวดล้อมที่สำคัญจากกิจกรรมและผลิตภัณฑ์ของตน',risk:'M',ev:'การประเมินด้านสิ่งแวดล้อม (EIA/EA), แผนจัดการผลกระทบ'},
+    ]},
+  ]},
+  {id:'s5',title:'ส่วนที่ 5 — หมวดจริยธรรมทางธุรกิจ (Business Ethics)',icon:'ti-scale',color:'#7C3AED',
+   subsections:[
+    {title:'หัวข้อ D1-D3: การป้องกันการทุจริต การเปิดเผยข้อมูล และการไม่ตอบโต้',questions:[
+      {id:'D1.1',text:'บริษัทมีนโยบายกำกับดูแลการให้หรือรับสิ่งของมีค่าจากลูกค้า ผู้จัดจำหน่าย เจ้าหน้าที่รัฐ และบุคคลอื่นๆ',risk:'H',ev:'นโยบายของขวัญ/บริษัท, หลักฐานการสื่อสาร'},
+      {id:'D1.2',text:'บริษัทกำหนดวงเงินสำหรับของขวัญ และกำหนดให้พนักงานรายงานและบันทึกของขวัญทุกชิ้น',risk:'H',ev:'ระเบียบของขวัญ, บันทึกการรายงาน'},
+      {id:'D1.3',text:'ห้ามมีการชำระเงินอำนวยความสะดวก (Facilitating Payments) และห้ามให้สินบนทุกรูปแบบ',risk:'H',ev:'นโยบายต่อต้านการทุจริต, บันทึกการฝึกอบรม'},
+      {id:'D1.4',text:'พนักงานที่ปฏิเสธการให้สินบนหรือการชำระเงินอำนวยความสะดวกได้รับการคุ้มครองจากการตอบโต้ (Whistleblower Protection)',risk:'H',ev:'นโยบายคุ้มครองผู้แจ้งเบาะแส, ช่องทางรายงาน'},
+      {id:'D1.5',text:'มีกระบวนการรายงาน สอบสวน และบันทึกข้อกล่าวหาเรื่องการทุจริตและคอร์รัปชัน',risk:'H',ev:'ระบบรับแจ้งเบาะแส, บันทึกการสอบสวน'},
+      {id2:'D2.1',text:'บริษัทเปิดเผยข้อมูลอย่างถูกต้องในระหว่างการตรวจประเมิน รวมถึงข้อมูลค่าจ้างและชั่วโมงทำงาน และไม่สอนแรงงานให้ตอบคำถาม',risk:'H',ev:'บันทึกการตรวจประเมิน, หลักฐานความร่วมมือ'},
+      {id:'D3.1',text:'Smile บริษัทไม่ดำเนินการหรือยอมรับการตอบโต้ผู้ร้องเรียน และคุ้มครองตัวตนของผู้แจ้งเบาะแส',risk:'H',ev:'นโยบายไม่ตอบโต้, บันทึกกรณีร้องเรียน'},
+      {id:'D4.1',text:'บริษัทไม่ประสานงานกับคู่แข่งเพื่อควบคุมราคาหรือคุณสมบัติผลิตภัณฑ์',risk:'M',ev:'นโยบายการแข่งขันที่เป็นธรรม, หลักฐานการปฏิบัติตาม'},
+      {id:'D5.1',text:'มีนโยบายและกระบวนการในการปกป้องข้อมูลลับที่ได้รับจากลูกค้าในกระบวนการทำสัญญา',risk:'H',ev:'นโยบาย NDA, ข้อตกลงการรักษาความลับ'},
+      {id:'D5.2',text:'มีกระบวนการในการรักษาความลับและปกป้องข้อมูลของผู้จัดจำหน่ายและหุ้นส่วนทางธุรกิจ',risk:'H',ev:'นโยบายความลับ, NDA กับ Supplier'},
+      {id:'D5.3',text:'มีนโยบายและโปรแกรมเพื่อปกป้องข้อมูลส่วนบุคคลของผู้จัดจำหน่าย ลูกค้า ผู้บริโภค และพนักงาน',risk:'H',ev:'นโยบาย Privacy/PDPA, เอกสาร Privacy Notice, แบบฟอร์มยินยอม'},
+      {id:'D5.4',text:'โปรแกรมคุ้มครองข้อมูลสอดคล้องกับกฎหมายความเป็นส่วนตัวในทุกประเทศที่มีการเก็บ จัดเก็บ ประมวลผล และแบ่งปันข้อมูลส่วนบุคคล',risk:'H',ev:'หลักฐานการปฏิบัติตาม PDPA, รายงาน Data Audit'},
+      {id:'D6.1',text:'พนักงานต้องประกาศผลประโยชน์ทับซ้อน และการประกาศดังกล่าวได้รับการบันทึก ทบทวน และดำเนินการโดยฝ่ายบริหาร',risk:'M',ev:'แบบฟอร์มประกาศผลประโยชน์ทับซ้อน, บันทึกการทบทวน'},
+      {id:'D6.2',text:'ผลประโยชน์ทับซ้อนที่อาจเกิดขึ้นในความสัมพันธ์ระหว่างบริษัทกับลูกค้าได้รับการรายงานต่อลูกค้า',risk:'M',ev:'บันทึกการรายงาน, การสื่อสารกับลูกค้า'},
+      {id:'D7.1',text:'มีนโยบายและขั้นตอนในการป้องกันการมีส่วนร่วมหรืออำนวยความสะดวกในกิจกรรมผิดกฎหมาย เช่น การปลอมแปลงสินค้า การลักลอบนำเข้า-ออก',risk:'H',ev:'นโยบายองค์กร, หลักฐานการควบคุม'},
+      {id:'D7.2',text:'รายงานกิจกรรมผิดกฎหมายได้รับการบันทึกและสอบสวนอย่างครบถ้วน',risk:'H',ev:'บันทึกการสอบสวน, รายงานกรณี'},
+      {id:'D8.1',text:'มีนโยบาย Conflict Minerals เป็นลายลักษณ์อักษร ห้ามซื้อวัสดุ 3TG (ดีบุก ทังสเตน แทนทาลัม ทอง) ที่เป็นแหล่งทุนของกลุ่มติดอาวุธหรือองค์กรอาชญากรรมที่ละเมิดสิทธิมนุษยชน',risk:'H',ev:'นโยบาย Conflict Minerals, หลักฐานการสื่อสาร'},
+      {id:'D8.2',text:'ดำเนินการตรวจสอบสถานะ (Due Diligence) ที่มีประสิทธิภาพเกี่ยวกับแหล่งที่มาและห่วงโซ่การดูแล 3TG',risk:'H',ev:'รายงาน CMRT (Conflict Minerals Reporting Template), บันทึก Due Diligence'},
+    ]},
+  ]},
+  {id:'s6',title:'ส่วนที่ 6 — หมวดระบบการจัดการ (Management Systems)',icon:'ti-settings',color:'#0369A1',
+   subsections:[
+    {title:'หัวข้อ E1: ระบบการจัดการ',questions:[
+      {id:'E1.1',text:'มีระบบการจัดการที่เป็นลายลักษณ์อักษรเพื่อรองรับการปฏิบัติตามหลักจรรยาบรรณ RBA หรือมาตรฐานเทียบเท่า',risk:'M',ev:'นโยบาย, คู่มือการจัดการ'},
+      {id:'E1.2',text:'มีการกำหนดผู้รับผิดชอบที่ชัดเจนสำหรับการดำเนินงานตามหลักจรรยาบรรณ',risk:'M',ev:'โครงสร้างองค์กร, Job Description, แผนมอบหมายบทบาท'},
+      {id:'E1.3',text:'บริษัทมีกระบวนการทบทวนโดยผู้บริหาร (Management Review) อย่างสม่ำเสมอ',risk:'M',ev:'รายงานประชุม/Minutes, KPI, แผนปรับปรุง'},
+      {id:'E1.4',text:'มีการฝึกอบรมพนักงานเกี่ยวกับหลักจรรยาบรรณ นโยบาย และขั้นตอนที่เกี่ยวข้อง',risk:'M',ev:'บันทึกอบรม, รายงานการสื่อสาร'},
+      {id:'E1.5',text:'บริษัทมีการอบรมและสื่อสารนโยบายไปยัง Supplier/Sub Agent',risk:'M',ev:'หลักฐานส่งเอกสาร, เอกสารยืนยันรับทราบ, บันทึกอบรม'},
+      {id:'E1.6',text:'มีกระบวนการในการตรวจสอบภายในและประเมินผลการปฏิบัติตามหลักจรรยาบรรณ (Self-Audit/Assessment) อย่างสม่ำเสมอ',risk:'M',ev:'โปรแกรม Internal Audit, รายงานตรวจประเมิน, Checklists'},
+      {id:'E1.7',text:'มีกระบวนการแก้ไขข้อบกพร่องที่ระบุได้และดำเนินการแก้ไขอย่างทันท่วงที',risk:'M',ev:'ใบ CAR/CAPA, กำหนดผู้รับผิดชอบ-กำหนดเสร็จ, หลักฐานแก้ไข/ประเมินประสิทธิผล'},
+      {id:'E1.8',text:'บริษัทสื่อสารความคาดหวังด้าน RBA ไปยัง Supplier ของตนและมีกระบวนการตรวจสอบการปฏิบัติตาม',risk:'M',ev:'นโยบาย Supplier Code of Conduct, หลักฐานการส่ง/รับรู้'},
+    ]},
+  ]},
+];
+
+const answers = {};
+const TOTAL_Q = SECTIONS.reduce((a,s)=>a+s.subsections.reduce((b,sub)=>b+sub.questions.length,0),0);
+
+function saveDraft(){
+  const draft={
+    answers:{...answers},
+    uploadState:{...uploadState},
+    part1:{
+      name:document.getElementById('co-name')?.value||'',
+      addr:document.getElementById('co-addr')?.value||'',
+      type:document.getElementById('co-type')?.value||'',
+      site1:document.getElementById('co-site1')?.value||'',
+      contact:document.getElementById('co-contact')?.value||'',
+      position:document.getElementById('co-position')?.value||'',
+      email:document.getElementById('co-email')?.value||'',
+      phone:document.getElementById('co-phone')?.value||'',
+      emp:document.getElementById('co-emp')?.value||'',
+      emp2:document.getElementById('co-emp2')?.value||'',
+      migrant:document.getElementById('co-migrant')?.value||'',
+    },
+    savedAt:new Date().toISOString()
+  };
+  try{
+    localStorage.setItem('svap_draft',JSON.stringify(draft));
+    toast('<i class="ti ti-device-floppy"></i> บันทึกร่างสำเร็จ — '+new Date().toLocaleTimeString('th-TH'),'success');
+  }catch(e){toast('<i class="ti ti-alert-circle"></i> บันทึกร่างไม่สำเร็จ','error');}
+}
+
+function loadDraft(){
+  try{
+    const raw=localStorage.getItem('svap_draft');
+    if(!raw)return;
+    const draft=JSON.parse(raw);
+    const p=draft.part1||{};
+    const map={name:'co-name',addr:'co-addr',type:'co-type',site1:'co-site1',contact:'co-contact',position:'co-position',email:'co-email',phone:'co-phone',emp:'co-emp',emp2:'co-emp2',migrant:'co-migrant'};
+    Object.entries(map).forEach(([k,id])=>{const el=document.getElementById(id);if(el&&p[k])el.value=p[k];});
+    Object.entries(draft.answers||{}).forEach(([qId,val])=>{
+      answers[qId]=val;
+      const safe=qId.replace(/\./g,'_');
+      const row=document.getElementById('qr-'+safe);
+      if(row){
+        row.className='q-row'+(val==='yes'?' ans-yes':val==='partial'?' ans-partial':val==='no'?' ans-no':' ans-na');
+        row.querySelectorAll('.ans-btn').forEach(b=>{
+          b.className='ans-btn'; b.style.borderColor=''; b.style.color='';
+          const txt=b.textContent.trim();
+          const bval=txt.includes('ไม่เกี่ยวข้อง')?'na':txt.includes('บางส่วน')?'partial':txt.startsWith('ไม่ใช่')||txt==='ไม่ใช่'?'no':'yes';
+          if(bval===val)b.className='ans-btn sel-'+val;
+          else if(bval==='na'){b.style.borderColor='#D1D5DB';b.style.color='#6B7280';}
+        });
+        const uz=document.getElementById('uz-'+safe);
+        if(uz){
+          if(val==='yes'||val==='partial') uz.style.display='block';
+          else uz.style.display='none';
+        }
+      }
+    });
+    Object.entries(draft.uploadState||{}).forEach(([qId,st])=>{
+      if(st&&st.status==='done'){
+        uploadState[qId]=st;
+        renderUploaded(qId,st);
+      }
+    });
+    updateProgress();
+    const savedAt=draft.savedAt?new Date(draft.savedAt).toLocaleString('th-TH'):'—';
+    toast('<i class="ti ti-history"></i> โหลดร่างสำเร็จ (บันทึกเมื่อ '+savedAt+')','success');
+  }catch(e){console.warn('Load draft error:',e);}
+}
+
+function clearDraft(){
+  try{localStorage.removeItem('svap_draft');}catch(e){}
+}
+
+function openPreview(qId){
+  const st = uploadState[qId];
+  if(!st||st.status!=='done') return;
+
+  const ext = st.fileName.split('.').pop().toUpperCase();
+  const isPDF = ext==='PDF';
+  const isImg = ['JPG','JPEG','PNG','GIF','WEBP'].includes(ext);
+
+  document.getElementById('prev-name').textContent = st.fileName;
+  document.getElementById('prev-size').textContent = st.fileSize;
+  const iconEl = document.getElementById('prev-icon');
+  if(isPDF){ iconEl.className='ti ti-file-type-pdf ph-icon'; iconEl.style.color='#DC2626'; }
+  else if(isImg){ iconEl.className='ti ti-photo ph-icon'; iconEl.style.color='#D97706'; }
+  else { iconEl.className='ti ti-file ph-icon'; iconEl.style.color='var(--orange)'; }
+
+  const body = document.getElementById('prev-body');
+  if(st.objectURL){
+    if(isPDF){
+      body.innerHTML = `<iframe src="${st.objectURL}" title="${st.fileName}"></iframe>`;
+    } else if(isImg){
+      body.innerHTML = `<div class="preview-img-wrap"><img src="${st.objectURL}" alt="${st.fileName}"></div>`;
+    } else {
+      body.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--text3)">
+        <i class="ti ti-file" style="font-size:48px;display:block;margin-bottom:12px"></i>
+        <p>ไม่สามารถแสดงตัวอย่างไฟล์ประเภทนี้ได้<br>กรุณาเปิดจาก Google Drive</p></div>`;
+    }
+  } else {
+    body.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--text3)">
+      <i class="ti ti-cloud" style="font-size:48px;display:block;margin-bottom:12px;color:var(--green)"></i>
+      <p>ไฟล์อัปโหลดไป Google Drive แล้ว<br>กดปุ่มด้านล่างเพื่อเปิดดู</p></div>`;
+  }
+
+  const driveBtn = document.getElementById('prev-drive-btn');
+  if(st.driveLink && st.driveLink !== '#'){
+    driveBtn.style.display = 'flex';
+    driveBtn.href = st.driveLink;
+  } else {
+    driveBtn.style.display = 'none';
+  }
+
+  document.getElementById('preview-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function closePreview(e){
+  if(e && e.target !== document.getElementById('preview-overlay')) return;
+  document.getElementById('preview-overlay').style.display='none';
+  document.body.style.overflow='';
+  const body=document.getElementById('prev-body');
+  if(body) body.innerHTML='';
+}
+
+const uploadState = {};
+
+function buildQuestions(){
+  const area = document.getElementById('questions-area');
+  area.innerHTML = '';
+  SECTIONS.forEach(sec => {
+    const total = sec.subsections.reduce((a,s)=>a+s.questions.length,0);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-hdr" id="hdr-${sec.id}" onclick="toggleCard('${sec.id}')">
+        <div class="card-pip" style="background:${sec.color}"></div>
+        <div style="flex:1"><div class="card-title"><i class="ti ${sec.icon}"></i> ${sec.title}</div></div>
+        <span class="card-badge" id="badge-${sec.id}">0/${total}</span>
+        <i class="ti ti-chevron-down chevron" id="chev-${sec.id}"></i>
+      </div>
+      <div class="card-body" id="body-${sec.id}">
+        ${sec.subsections.map(sub=>`
+          <div class="sub-label">${sub.title}</div>
+          ${sub.questions.map(q=>`
+            <div class="q-row" id="qr-${q.id.replace(/\./g,'_')}">
+              <div class="q-top">
+                <span class="risk-tag risk-${q.risk}">${q.risk}</span>
+                <span class="q-num">${q.id}</span>
+                <span class="q-text">${q.text}</span>
+              </div>
+              <div class="ans-row">
+                <button class="ans-btn" onclick="pick('${q.id}','yes')"><i class="ti ti-check"></i> ใช่</button>
+                <button class="ans-btn" onclick="pick('${q.id}','partial')"><i class="ti ti-adjustments-half"></i> สอดคล้องบางส่วน</button>
+                <button class="ans-btn" onclick="pick('${q.id}','no')"><i class="ti ti-x"></i> ไม่ใช่</button>
+                <button class="ans-btn" onclick="pick('${q.id}','na')" style="border-color:#D1D5DB;color:#6B7280"><i class="ti ti-minus"></i> ไม่เกี่ยวข้อง</button>
+              </div>
+              ${q.ev?`<div class="ev-hint"><div class="ev-title"><i class="ti ti-sparkles"></i> เอกสารที่แนะนำ</div><div class="ev-tags">${q.ev.split(',').map(e=>`<span class="ev-tag">${e.trim()}</span>`).join('')}</div></div>`:''}
+              <div id="uz-${q.id.replace(/\./g,'_')}" class="up-zone" style="display:none">
+                <div class="up-inner">
+                  <div class="up-ico"><i class="ti ti-paperclip"></i></div>
+                  <div class="up-txt"><strong>แนบเอกสารหลักฐาน</strong><p style="color:var(--red)">* บังคับแนบ · PDF/JPG/PNG · สูงสุด 5 MB</p></div>
+                  <button class="up-cta" onclick="triggerFileInput('${q.id}')"><i class="ti ti-upload"></i> เลือกไฟล์</button>
+                </div>
+                <div class="up-limits">
+                  <span class="up-limit-tag"><i class="ti ti-file-type-pdf"></i> PDF</span>
+                  <span class="up-limit-tag"><i class="ti ti-file-type-jpg"></i> JPG</span>
+                  <span class="up-limit-tag"><i class="ti ti-photo"></i> PNG</span>
+                  <span class="up-limit-tag"><i class="ti ti-database"></i> สูงสุด 5 MB</span>
+                </div>
+                <input type="file" id="fi-${q.id.replace(/\./g,'_')}" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleFileSelect(event,'${q.id}')">
+              </div>
+            </div>`).join('')}
+        `).join('')}
+      </div>`;
+    area.appendChild(card);
+  });
+}
+
+function toggleCard(id){
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  const hdr=document.getElementById('hdr-'+id);
+  const open=body.classList.toggle('open');
+  chev.classList.toggle('open',open);
+  hdr.classList.toggle('open',open);
+}
+
+function pick(qId,val){
+  answers[qId]=val;
+  const safe=qId.replace(/\./g,'_');
+  const row=document.getElementById('qr-'+safe);
+  row.className='q-row'+(val==='yes'?' ans-yes':val==='partial'?' ans-partial':val==='no'?' ans-no':' ans-na');
+  row.querySelectorAll('.ans-btn').forEach(b=>{
+    b.className='ans-btn';
+    b.style.borderColor='';b.style.color='';
+    const txt=b.textContent.trim();
+    const bval = txt.includes('ไม่เกี่ยวข้อง')?'na':txt.includes('บางส่วน')?'partial':txt.startsWith('ไม่ใช่')||txt==='ไม่ใช่'?'no':'yes';
+    if(bval===val) b.className='ans-btn sel-'+val;
+    else if(bval==='na') { b.style.borderColor='#D1D5DB'; b.style.color='#6B7280'; }
+  });
+  const uz=document.getElementById('uz-'+safe);
+  if(uz){
+    if(val==='yes'||val==='partial'){
+      uz.style.display='block';
+      const st=uploadState[qId];
+      if(st&&st.status==='done'){
+        renderUploaded(qId,st);
+      } else if(!st||st.status!=='uploading'){
+        uz.className='up-zone';
+        renderUploadEmpty(qId);
+      }
+    } else {
+      uz.style.display='none';
+      if(val==='na') { delete uploadState[qId]; }
+    }
+  }
+  updateProgress();
+}
+
+function renderUploadEmpty(qId){
+  const safe=qId.replace(/\./g,'_');
+  const uz=document.getElementById('uz-'+safe);
+  if(!uz)return;
+  uz.className='up-zone';
+  uz.innerHTML=`
+    <div class="up-inner">
+      <div class="up-ico"><i class="ti ti-paperclip"></i></div>
+      <div class="up-txt"><strong>แนบเอกสารหลักฐาน</strong><p style="color:var(--red)">* บังคับแนบ · PDF/JPG/PNG · สูงสุด 5 MB</p></div>
+      <button class="up-cta" onclick="triggerFileInput('${qId}')"><i class="ti ti-upload"></i> เลือกไฟล์</button>
+    </div>
+    <div class="up-limits">
+      <span class="up-limit-tag"><i class="ti ti-file-type-pdf"></i> PDF</span>
+      <span class="up-limit-tag"><i class="ti ti-file-type-jpg"></i> JPG</span>
+      <span class="up-limit-tag"><i class="ti ti-photo"></i> PNG</span>
+      <span class="up-limit-tag"><i class="ti ti-database"></i> สูงสุด 5 MB</span>
+    </div>
+    <input type="file" id="fi-${safe}" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleFileSelect(event,'${qId}')">`;
+}
+
+function renderUploaded(qId,st){
+  const safe=qId.replace(/\./g,'_');
+  const uz=document.getElementById('uz-'+safe);
+  if(!uz)return;
+  uz.className='up-zone uploaded';
+  const ext=st.fileName.split('.').pop().toUpperCase();
+  const iconColor=ext==='PDF'?'#DC2626':ext==='JPG'||ext==='JPEG'?'#D97706':'#0891B2';
+  const iconName=ext==='PDF'?'ti-file-type-pdf':ext==='JPG'||ext==='JPEG'?'ti-file-type-jpg':'ti-photo';
+  uz.innerHTML=`
+    <div class="up-inner">
+      <div class="up-ico"><i class="ti ti-circle-check" style="color:var(--green)"></i></div>
+      <div class="up-txt"><strong style="color:var(--green)">อัปโหลดสำเร็จ ✓ บันทึกใน Drive แล้ว</strong><p>คลิกเพื่อเปลี่ยนไฟล์</p></div>
+      <button class="up-cta ghost" onclick="triggerFileInput('${qId}')"><i class="ti ti-replace"></i> เปลี่ยน</button>
+    </div>
+    <div class="f-chip">
+      <i class="ti ${iconName}" style="color:${iconColor}"></i>
+      <span class="f-name">${st.fileName}</span>
+      <span class="f-size">${st.fileSize}</span>
+      <button class="f-link" onclick="openPreview('${qId}')" style="border:none;background:none;cursor:pointer;padding:0;font-size:11px;color:var(--blue);display:flex;align-items:center;gap:3px;font-family:inherit"><i class="ti ti-eye"></i> ดูไฟล์</button>
+      <button class="f-del" onclick="removeFile('${qId}')" title="ลบ"><i class="ti ti-x"></i></button>
+    </div>
+    <input type="file" id="fi-${safe}" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleFileSelect(event,'${qId}')">`;
+}
+
+function triggerFileInput(qId){
+  const safe=qId.replace(/\./g,'_');
+  const fi=document.getElementById('fi-'+safe);
+  if(fi)fi.click();
+}
+
+async function handleFileSelect(event,qId){
+  const file=event.target.files[0];
+  if(!file)return;
+  const allowedTypes=['application/pdf','image/jpeg','image/jpg','image/png'];
+  if(!allowedTypes.includes(file.type)){toast('<i class="ti ti-alert-circle"></i> รองรับเฉพาะ PDF, JPG, PNG เท่านั้น','error');return;}
+  const maxSize=5*1024*1024;
+  if(file.size>maxSize){toast('<i class="ti ti-alert-circle"></i> ไฟล์ใหญ่เกิน 5 MB','error');return;}
+  const safe=qId.replace(/\./g,'_');
+  const uz=document.getElementById('uz-'+safe);
+  if(!uz)return;
+  const sizeStr=file.size>1024*1024?(file.size/1024/1024).toFixed(1)+' MB':(file.size/1024).toFixed(0)+' KB';
+  uploadState[qId]={status:'uploading',fileName:file.name,fileSize:sizeStr};
+  uz.className='up-zone uploading';
+  uz.innerHTML=`
+    <div class="up-inner">
+      <div class="up-ico"><i class="ti ti-loader-2" style="color:var(--orange);animation:spin 1s linear infinite"></i></div>
+      <div class="up-txt"><strong style="color:var(--orange)">กำลังอัปโหลดไป Google Drive...</strong><p>${file.name} · ${sizeStr}</p></div>
+      <button class="up-cta" style="border-color:var(--red);color:var(--red)" onclick="cancelUpload('${qId}')"><i class="ti ti-x"></i> ยกเลิก</button>
+    </div>
+    <div class="up-prog"><div class="up-prog-fill" id="upbar-${safe}" style="width:0%"></div></div>`;
+  
+  let pct=0;
+  const bar=document.getElementById('upbar-'+safe);
+  const iv=setInterval(()=>{pct=Math.min(pct+Math.random()*15+5,90);if(bar)bar.style.width=Math.round(pct)+'%';},200);
+  try{
+    let driveLink='';
+    if(APPS_SCRIPT_URL!=='YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){
+      const b64=await fileToBase64(file);
+      const res=await fetch(APPS_SCRIPT_URL,{
+        method:'POST',
+        body:JSON.stringify({
+          action:'uploadFile',
+          qId,company:document.getElementById('co-name').value||'Unknown',
+          fileName:file.name,fileType:file.type,fileData:b64
+        })
+      });
+      const json=await res.json();
+      if(json.driveLink)driveLink=json.driveLink;
+    } else {
+      await new Promise(r=>setTimeout(r,1500));
+      driveLink='#';
+    }
+    clearInterval(iv);
+    if(bar)bar.style.width='100%';
+    setTimeout(()=>{
+      if(uploadState[qId]&&uploadState[qId].objectURL) URL.revokeObjectURL(uploadState[qId].objectURL);
+      const objectURL=URL.createObjectURL(file);
+      uploadState[qId]={status:'done',fileName:file.name,fileSize:sizeStr,driveLink,objectURL,fileType:file.type};
+      renderUploaded(qId,uploadState[qId]);
+      updateProgress();
+      toast('<i class="ti ti-check"></i> อัปโหลด '+file.name+' สำเร็จ','success');
+    },300);
+  }catch(err){
+    clearInterval(iv);
+    delete uploadState[qId];
+    renderUploadEmpty(qId);
+    toast('<i class="ti ti-alert-triangle"></i> อัปโหลดไม่สำเร็จ: '+err.message,'error');
+  }
+}
+
+function fileToBase64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=()=>rej(new Error('อ่านไฟล์ไม่สำเร็จ'));
+    r.readAsDataURL(file);
+  });
+}
+
+function cancelUpload(qId){
+  delete uploadState[qId];
+  renderUploadEmpty(qId);
+}
+
+function removeFile(qId){
+  delete uploadState[qId];
+  renderUploadEmpty(qId);
+  updateProgress();
+}
+
+function allQ(){return SECTIONS.flatMap(s=>s.subsections.flatMap(s2=>s2.questions));}
+function needsUpload(qId){return answers[qId]==='yes'||answers[qId]==='partial';}
+function isNA(qId){return answers[qId]==='na';}
+function isUploaded(qId){return uploadState[qId]&&uploadState[qId].status==='done';}
+
+function updateProgress(){
+  const done=Object.keys(answers).length;
+  const pct=Math.round(done/TOTAL_Q*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const allQs=allQ();
+  const needUp=allQs.filter(q=>needsUpload(q.id)).length;
+  const doneUp=allQs.filter(q=>isUploaded(q.id)).length;
+  const progTxt=`${done} / ${TOTAL_Q} คำถาม · เอกสาร ${doneUp}/${needUp} ไฟล์`;
+  document.getElementById('prog-txt').textContent=progTxt;
+  document.getElementById('prog-count').textContent=progTxt;
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('foot-count').textContent=done;
+  SECTIONS.forEach(sec=>{
+    const qs=sec.subsections.flatMap(s=>s.questions);
+    const d=qs.filter(q=>answers[q.id]).length;
+    const badge=document.getElementById('badge-'+sec.id);
+    if(badge){badge.textContent=`${d}/${qs.length}`;badge.className='card-badge'+(d===qs.length?' done':d>0?' partial':'');}
+  });
+}
+
+function calcScore(qs,ans){
+  let yes=0,no=0,partial=0,na=0;
+  qs.forEach(q=>{const a=ans[q.id];if(a==='yes')yes++;else if(a==='no')no++;else if(a==='partial')partial++;else if(a==='na')na++;});
+  const effective=qs.length-na;
+  const score=effective>0?Math.round((yes+partial*.5)/effective*100):100;
+  return{yes,no,partial,na,total:qs.length,effective,score,unanswered:qs.length-yes-no-partial-na};
+}
+
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.innerHTML=msg;t.className='toast show '+type;
+  clearTimeout(t._t);t._t=setTimeout(()=>t.className='toast',3500);
+}
+
+function clearAll(){
+  if(!confirm('ล้างข้อมูลทั้งหมดหรือไม่?'))return;
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  document.querySelectorAll('.q-row').forEach(r=>r.className='q-row');
+  document.querySelectorAll('.ans-btn').forEach(b=>b.className='ans-btn');
+  ['co-name','co-addr','co-type','co-site1','co-contact','co-position','co-email','co-phone','co-emp','co-emp2','co-migrant'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  updateProgress();
+}
+
+async function handleSubmit(){
+  const part1Fields = [
+    {id:'co-name',    label:'ชื่อบริษัท'},
+    {id:'co-addr',    label:'ที่อยู่สำนักงาน'},
+    {id:'co-type',    label:'ประเภทธุรกิจ'},
+    {id:'co-site1',   label:'สถานที่ปฏิบัติงาน'},
+    {id:'co-contact', label:'ชื่อผู้ติดต่อ'},
+    {id:'co-position',label:'ตำแหน่ง'},
+    {id:'co-email',   label:'อีเมล'},
+    {id:'co-phone',   label:'เบอร์โทรศัพท์'},
+    {id:'co-emp',     label:'จำนวนพนักงานที่ว่าจ้างโดยตรง'},
+    {id:'co-emp2',    label:'จำนวนพนักงานสัญญาจ้าง'},
+    {id:'co-migrant', label:'จำนวนพนักงานข้ามชาติ'},
+  ];
+  for(const f of part1Fields){
+    const el=document.getElementById(f.id);
+    if(!el||!el.value.trim()){
+      toast('<i class="ti ti-alert-circle"></i> กรุณากรอก: '+f.label,'error');
+      el&&el.focus();
+      const body=document.getElementById('body-s1');
+      if(body&&!body.classList.contains('open'))toggleCard('s1');
+      el&&el.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+  }
+  const name=document.getElementById('co-name').value.trim();
+  const contact=document.getElementById('co-contact').value.trim();
+  const email=document.getElementById('co-email').value.trim();
+  const all=allQ();
+  const done=Object.keys(answers).length;
+  if(done<all.length){
+    const unanswered=all.filter(q=>!answers[q.id]);
+    const firstUn=unanswered[0];
+    toast('<i class="ti ti-alert-circle"></i> กรุณาตอบให้ครบทุกข้อ ยังเหลืออีก '+unanswered.length+' ข้อ','error');
+    if(firstUn){
+      const el=document.getElementById('qr-'+firstUn.id.replace(/\./g,'_'));
+      if(el){
+        const secId=firstUn.id.match(/^[A-Z]/)?'s'+(firstUn.id.charAt(0)==='B'?'3':firstUn.id.charAt(0)==='C'?'4':firstUn.id.charAt(0)==='D'?'5':'6'):firstUn.id.split('.')[0]<='12'?'s2':'s2';
+        const body=document.getElementById('body-'+secId);
+        if(body&&!body.classList.contains('open'))toggleCard(secId);
+        setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),100);
+      }
+    }
+    return;
+  }
+  const missingUploads=all.filter(q=>needsUpload(q.id)&&!isUploaded(q.id));
+  if(missingUploads.length>0){
+    missingUploads.forEach(q=>{
+      const uz=document.getElementById('uz-'+q.id.replace(/\./g,'_'));
+      if(uz){uz.className='up-zone missing';}
+    });
+    toast('<i class="ti ti-alert-circle"></i> กรุณาแนบเอกสาร '+missingUploads.length+' ข้อที่ยังไม่แนบ (เลื่อนดูกรอบสีแดง)','error');
+    const firstMissing=document.getElementById('qr-'+missingUploads[0].id.replace(/\./g,'_'));
+    if(firstMissing)firstMissing.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  const overall=calcScore(all,answers);
+  const sectionScores=SECTIONS.map(sec=>{const qs=sec.subsections.flatMap(s=>s.questions);return{id:sec.id,title:sec.title.split('—')[1]?.trim()||sec.title,color:sec.color,...calcScore(qs,answers)};});
+  const driveLinks={};
+  Object.entries(uploadState).forEach(([qId,st])=>{if(st.status==='done')driveLinks[qId]={fileName:st.fileName,driveLink:st.driveLink};});
+  const payload={id:Date.now(),company:name,address:document.getElementById('co-addr').value,type:document.getElementById('co-type').value,site1:document.getElementById('co-site1').value,contact,position:document.getElementById('co-position').value,email,phone:document.getElementById('co-phone').value,employees:document.getElementById('co-emp').value,employees2:document.getElementById('co-emp2').value,migrants:document.getElementById('co-migrant').value,answers:{...answers},driveLinks,overall,sectionScores};
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> กำลังส่ง...';
+  toast('<i class="ti ti-cloud-upload"></i> กำลังส่งข้อมูล...','');
+  try{
+    if(APPS_SCRIPT_URL!=='YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)});}
+    else{await new Promise(r=>setTimeout(r,1000));}
+    const grade=overall.score>=80?'ผ่านเกณฑ์ดี 🟢':overall.score>=60?'ต้องปรับปรุง 🟡':'ไม่ผ่านเกณฑ์ 🔴';
+    document.getElementById('form-area').style.display='none';
+    document.getElementById('success-screen').style.display='block';
+    document.getElementById('final-score').textContent=overall.score;
+    document.getElementById('final-grade').textContent='ผลการประเมิน: '+grade;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(err){
+    toast('<i class="ti ti-alert-triangle"></i> เกิดข้อผิดพลาด: '+err.message,'error');
+    btn.disabled=false;btn.innerHTML='<i class="ti ti-send"></i> ส่งแบบประเมิน';
+  }
+}
+
+buildQuestions();
+updateProgress();
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape') {
+    const overlay=document.getElementById('preview-overlay');
+    if(overlay&&overlay.style.display!=='none'){
+      overlay.style.display='none';
+      document.body.style.overflow='';
+      const body=document.getElementById('prev-body');
+      if(body) body.innerHTML='';
+    }
+  }
+});
+
+if(localStorage.getItem('svap_draft')){
+  if(confirm('พบข้อมูลร่างที่บันทึกไว้ ต้องการโหลดต่อหรือไม่?'))loadDraft();
+  else clearDraft();
+}
+</script>
+
+<div class="preview-overlay" id="preview-overlay" style="display:none" onclick="closePreview(event)">
+  <div class="preview-modal" onclick="event.stopPropagation()">
+    <div class="preview-header">
+      <i class="ti ti-file-search ph-icon" id="prev-icon" style="color:var(--orange)"></i>
+      <span class="ph-name" id="prev-name">ไฟล์เอกสาร</span>
+      <span class="ph-size" id="prev-size"></span>
+      <button onclick="closePreview()" style="border:none;background:none;cursor:pointer;font-size:18px;color:var(--text3);padding:0;margin-left:8px;flex-shrink:0"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="preview-body" id="prev-body"></div>
+    <div class="preview-footer">
+      <a id="prev-drive-btn" href="#" target="_blank" style="display:none" class="btn btn-primary">
+        <i class="ti ti-brand-google-drive"></i> เปิดใน Google Drive
+      </a>
+      <button onclick="closePreview()" class="btn btn-ghost">
+        <i class="ti ti-x"></i> ปิด
+      </button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

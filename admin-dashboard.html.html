@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SVAP Admin Dashboard — HI-TECH APPAREL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --navy:#0B1D3A;--navy2:#132748;
+  --orange:#E8651A;--orange2:#D4560E;--orange-lt:#FFF3ED;--orange-mid:#FED7AA;
+  --gold:#B45309;--gold-lt:#FFFBEB;--gold-mid:#FDE68A;
+  --surface:#F8FAFC;--white:#FFFFFF;
+  --border:#E2E8F0;--border2:#CBD5E1;
+  --text:#0F172A;--text2:#475569;--text3:#94A3B8;
+  --green:#16A34A;--green-lt:#F0FDF4;--green-mid:#BBF7D0;--green-dk:#166534;
+  --amber:#D97706;--amber-lt:#FFFBEB;--amber-mid:#FDE68A;--amber-dk:#92400E;
+  --red:#DC2626;--red-lt:#FEF2F2;--red-mid:#FECACA;--red-dk:#991B1B;
+  --blue:#1C5BDB;--blue-lt:#EEF3FF;--blue-mid:#DBEAFE;
+  --r:8px;--rlg:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sidebar-w:220px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Prompt',sans-serif;background:var(--surface);color:var(--text);font-size:13px;height:100vh;overflow:hidden;display:flex}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--navy);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.sb-brand{padding:16px 16px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-hi{font-size:14px;font-weight:600;color:var(--orange);letter-spacing Club:.05em}
+.sb-tech{font-size:14px;font-weight:600;color:#FCD34D;letter-spacing:.1em}
+.sb-apparel{font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.25em;text-transform:uppercase;display:block;margin-top:1px}
+.sb-system{font-size:10px;color:rgba(255,255,255,.4);margin-top:6px}
+.sb-sec{font-size:9.5px;letter-spacing Club:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:14px 16px 5px;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;font-size:12.5px;color:rgba(255,255,255,.55);border-left:3px solid transparent;transition:all .15s;user-select:none}
+.nav-item i{font-size:16px;flex-shrink:0}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.nav-item.active{background:rgba(232,101,26,.18);border-left-color:var(--orange);color:white;font-weight:500}
+.sb-footer{margin-top:auto;padding:12px 16px;border-top:1px solid rgba(255,255,255,.07);font-size:10.5px;color:rgba(255,255,255,.3)}
+.sb-footer span{color:rgba(255,255,255,.5);display:block;margin-top:2px}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{background:var(--white);border-bottom:0.5px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.topbar h2{font-size:14px;font-weight:500;color:var(--text)}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+.content{flex:1;overflow-y:auto;padding:18px 20px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:var(--r);font-family:'Prompt',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
+.btn-primary{background:var(--orange);color:white}.btn-primary:hover{background:var(--orange2)}
+.btn-outline{background:var(--white);color:var(--text2);border:0.5px solid var(--border2)}.btn-outline:hover{background:var(--surface)}
+.btn-sm{padding:5px 11px;font-size:11.5px}
+.btn-ghost{background:transparent;color:var(--text2);border:0.5px solid var(--border)}.btn-ghost:hover{background:var(--surface)}
+
+/* ── VIEWS ── */
+.view{display:none}.view.active{display:block}
+
+/* ── METRIC CARDS ── */
+.metrics-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.metric-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:14px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.mc-orange::before{background:var(--orange)}.mc-blue::before{background:var(--blue)}
+.mc-green::before{background:var(--green)}.mc-amber::before{background:var(--amber)}.mc-red::before{background:var(--red)}
+.m-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:16px}
+.m-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing Club:.05em;margin-bottom:4px;font-weight:500}
+.m-val{font-size:24px;font-weight:600;color:var(--text);line-height:1}
+.m-sub{font-size:10.5px;color:var(--text3);margin-top:4px}
+
+/* ── ROW LAYOUTS ── */
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.row-wide{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px}
+
+/* ── CHART CARD ── */
+.chart-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:16px;box-shadow:var(--shadow)}
+.cc-title{font-size:12.5px;font-weight:500;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.cc-title i{color:var(--orange)}
+
+/* ── RISK BREAKDOWN ── */
+.risk-sec-row{border:0.5px solid var(--border);border-radius:var(--r);padding:10px 12px;margin-bottom:7px;background:var(--white)}
+.risk-sec-name{font-size:12px;font-weight:500;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.risk-bar-row{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.risk-lbl{font-size:10px;font-weight:600;width:12px;flex-shrink:0}
+.risk-lbl.H{color:var(--red-dk)}.risk-lbl.M{color:var(--amber-dk)}.risk-lbl.L{color:var(--green-dk)}
+.risk-track{flex:1;background:var(--border);border-radius:2px;height:7px;overflow:hidden}
+.risk-fill{height:100%;border-radius:2px;transition:width .6s ease}
+.risk-fill.H{background:#EF4444}.risk-fill.M{background:#F59E0B}.risk-fill.L{background:#22C55E}
+.risk-pct{font-size:10.5px;width:32px;text-align:right;flex-shrink:0;font-weight:500}
+.risk-pct.H{color:var(--red-dk)}.risk-pct.M{color:var(--amber-dk)}.risk-pct.L{color:var(--green-dk)}
+.risk-cnt{font-size:10px;color:var(--text3);width:38px;flex-shrink:0}
+
+/* ── WATCH LIST / CAP ── */
+.panel-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:0;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.panel-tabs{display:flex;border-bottom:0.5px solid var(--border);flex-shrink:0}
+.ptab{flex:1;padding:9px 10px;font-size:11.5px;cursor:pointer;color:var(--text3);border:none;background:transparent;border-bottom:2px solid transparent;font-family:'Prompt',sans-serif;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px}
+.ptab:hover{color:var(--text2);background:var(--surface)}
+.ptab.active{color:var(--orange);border-bottom-color:var(--orange);font-weight:500}
+.panel-body{padding:14px;overflow-y:auto;flex:1}
+.panel-title{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing Club:.06em;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.watch-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r);border:0.5px solid var(--border);margin-bottom:6px;background:var(--white);cursor:pointer;transition:background .1s}
+.watch-row:hover{background:var(--surface)}
+.watch-row:last-child{margin-bottom:0}
+.wr-rank{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.wr-info{flex:1;min-width:0}
+.wr-name{font-size:12px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wr-meta{font-size:10px;color:var(--text3);margin-top:2px;display:flex;gap:6px;align-items:center}
+.wr-score{font-size:13px;font-weight:600;flex-shrink:0}
+.cap-item{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:var(--r);margin-bottom:5px;border-left:3px solid transparent}
+.cap-item.H{background:var(--red-lt);border-left-color:var(--red)}
+.cap-item.M{background:var(--amber-lt);border-left-color:var(--amber)}
+.cap-item.L{background:var(--green-lt);border-left-color:var(--green)}
+.cap-badge{font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:1px;white-space:nowrap}
+.cap-badge.H{background:var(--red-lt);color:var(--red)}.cap-badge.M{background:var(--amber-lt);color:var(--amber)}.cap-badge.L{background:var(--green-lt);color:var(--green)}
+.cap-badge.no{background:var(--red-lt);color:var(--red)}.cap-badge.partial{background:var(--amber-lt);color:var(--amber)}
+.cap-text{font-size:11.5px;color:var(--text);flex:1;line-height:1.4}
+.cap-deadline{font-size:10px;color:var(--text3);flex-shrink:0;white-space:nowrap}
+.fail-line{font-size:10px;color:var(--text3);margin-top:2px}
+.empty-panel{text-align:center;padding:2rem;color:var(--text3);font-size:12px}
+.empty-panel i{font-size:32px;display:block;margin-bottom:8px}
+
+/* ── TABLE ── */
+.tbl-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);box-shadow:var(--shadow);overflow:hidden}
+.tbl-toolbar{padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tbl-toolbar h3{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.search-box{position:relative}
+.search-box i{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px}
+.search-box input{padding:6px 10px 6px 30px;border:0.5px solid var(--border2);border-radius:var(--r);font-family:'Prompt',sans-serif;font-size:12px;width:180px;color:var(--text);outline:none}
+.search-box input:focus{border-color:var(--orange)}
+select.flt{padding:6px 10px;border:0.5px solid var(--border2);border-radius:var(--r);font-family:'Prompt',sans-serif;font-size:12px;color:var(--text);background:var(--white);outline:none}
+select.flt:focus{border-color:var(--orange)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:8px 10px;text-align:left;font-size:10px;font-weight:500;color:var(--text3);border-bottom:0.5px solid var(--border);background:var(--surface);text-transform:uppercase;letter-spacing Club:.04em;white-space:nowrap}
+td{padding:9px 10px;border-bottom:0.5px solid var(--border);color:var(--text2);vertical-align:middle}
+tbody tr:hover td{background:#FAFCFF}
+tbody tr:last-child td{border-bottom:none}
+.grade-pill{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px}
+.gp-pass{background:var(--green-lt);color:var(--green)}.gp-imp{background:var(--amber-lt);color:var(--amber)}.gp-fail{background:var(--red-lt);color:var(--red)}
+.s-bar {display:flex;align-items:center;gap:5px}
+.s-bar-track{width:44px;background:var(--border);border-radius:2px;height:4px;overflow:hidden}
+.s-bar-fill{height:100%;border-radius:2px}
+
+/* ── DETAIL ── */
+.detail-grid{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
+.detail-header{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.co-avatar{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--orange-lt),var(--orange-mid));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--orange);flex-shrink:0}
+.info-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 9px;border-radius:10px;background:var(--surface);color:var(--text2);border:0.5px solid var(--border)}
+.big-score{font-size:38px;font-weight:600;line-height:1}
+.stat-4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.stat-box{border-radius:var(--r);padding:10px;text-align:center}
+.stat-box-lbl{font-size:10.5px;margin-bottom:3px}
+.stat-box-val{font-size:20px;font-weight:600}
+.sec-score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sec-sc-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:13px;box-shadow:var(--shadow)}
+.fail-list-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:16px;box-shadow:var(--shadow)}
+.fail-item{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:12px}
+.fail-item:last-child{border-bottom:none}
+.fbadge{font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.fbadge.no{background:var(--red-lt);color:var(--red)}.fbadge.partial{background:var(--amber-lt);color:var(--amber)}
+.rtag{font-size:9.5px;font-weight:600;padding:2px 5px;border-radius:3px;flex-shrink:0;margin-top:1px}
+.rtag.H{background:#FEE2E2;color:var(--red-dk)}.rtag.M{background:#FEF3C7;color:var(--amber-dk)}.rtag.L{background:#D1FAE5;color:var(--green-dk)}
+.drive-list-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+
+/* ── EXPORT MENU ── */
+.export-wrap{position:relative}
+.export-menu{position:absolute;top:calc(100%+5px);right:0;background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);box-shadow:0 4px 20px rgba(0,0,0,.12);width:210px;z-index:300;opacity:0;pointer-events:none;transform:translateY(-4px);transition:all .2s}
+.export-menu.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+.exp-item{display:flex;align-items:center;gap:9px;padding:9px 13px;cursor:pointer;font-size:12.5px;color:var(--text2);transition:background .1s}
+.exp-item:hover{background:var(--surface);color:var(--text)}
+.exp-item i{font-size:15px;color:var(--orange)}
+.exp-divider{height:0.5px;background:var(--border);margin:3px 0}
+
+/* ── TOAST / LOADING ── */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:white;padding:11px 16px;border-radius:var(--r);font-size:12.5px;font-weight:500;z-index:900;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.toast.show{opacity:1;transform:translateY(0)}.toast.success{background:var(--green)}.toast.error{background:var(--red)}
+.center-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;color:var(--text3);gap:10px}
+.center-state i{font-size:40px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sb-brand">
+    <div><span class="sb-hi">HI-</span><span class="sb-tech">TECH</span></div>
+    <span class="sb-apparel">Apparel</span>
+    <div class="sb-system">SVAP Admin Dashboard</div>
+  </div>
+  <div class="sb-sec">เมนูหลัก</div>
+  <div class="nav-item active" onclick="goView('overview',this)"><i class="ti ti-layout-dashboard"></i> ภาพรวม</div>
+  <div class="nav-item" onclick="goView('companies',this)"><i class="ti ti-table"></i> รายบริษัท</div>
+  <div class="nav-item" onclick="goView('detail',this)"><i class="ti ti-file-analytics"></i> รายงานรายบริษัท</div>
+  <div class="sb-sec">จัดการ</div>
+  <div class="nav-item" onclick="loadData()"><i class="ti ti-refresh"></i> รีเฟรชข้อมูล</div>
+  <div class="nav-item" onclick="exportCSV()"><i class="ti ti-file-spreadsheet"></i> Export CSV สรุป</div>
+  <div class="nav-item" onclick="exportDetailCSV()"><i class="ti ti-file-text"></i> Export CSV รายข้อ</div>
+  <div class="nav-item" onclick="exportJSON()"><i class="ti ti-file-code"></i> Export JSON</div>
+  <div class="nav-item" onclick="printReport()"><i class="ti ti-printer"></i> พิมพ์รายงาน</div>
+  <div class="sb-footer">อัปเดตล่าสุด<span id="last-upd">—</span></div>
+</nav>
+
+<div class="main">
+  <div class="topbar">
+    <h2 id="topbar-title"><i class="ti ti-layout-dashboard" style="color:var(--orange)"></i> ภาพรวม</h2>
+    <div class="topbar-actions">
+      <div class="export-wrap">
+        <button class="btn btn-outline" onclick="toggleExport(event)"><i class="ti ti-download"></i> Export ข้อมูล</button>
+        <div class="export-menu" id="export-menu">
+          <div class="exp-item" onclick="exportCSV()"><i class="ti ti-file-spreadsheet"></i> Export สรุป (CSV)</div>
+          <div class="exp-item" onclick="exportDetailCSV()"><i class="ti ti-file-text"></i> Export รายข้อ (CSV)</div>
+          <div class="exp-divider"></div>
+          <div class="exp-item" onclick="exportJSON()"><i class="ti ti-file-code"></i> Export JSON</div>
+          <div class="exp-item" onclick="printReport()"><i class="ti ti-printer"></i> พิมพ์รายงานภาพรวม</div>
+          <div class="exp-item" onclick="printDetailReport()"><i class="ti ti-printer"></i> พิมพ์รายงานรายบริษัท</div>
+        </div>
+      </div>
+      <button class="btn btn-outline" onclick="loadData()"><i class="ti ti-refresh"></i> รีเฟรช</button>
+      <button class="btn btn-primary" onclick="window.open('index.html','_blank')"><i class="ti ti-external-link"></i> เปิดแบบประเมิน</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="center-state" id="loading-state">
+      <i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i>
+      <p>กำลังโหลดข้อมูล...</p>
+    </div>
+
+    <div class="view" id="view-overview">
+      <div class="metrics-grid" id="metrics-area"></div>
+
+      <div style="margin-bottom:14px">
+        <div class="chart-card">
+          <div class="cc-title"><i class="ti ti-chart-bar"></i> คะแนนรายบริษัท (เรียงจากมาก→น้อย)</div>
+          <div style="position:relative" id="bar-wrap"><canvas id="bar-chart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="row-2" style="align-items:start">
+        <div class="chart-card">
+          <div class="cc-title"><i class="ti ti-chart-donut"></i> สัดส่วนผลการประเมิน</div>
+          <div style="position:relative;height:240px"><canvas id="pie-chart"></canvas></div>
+        </div>
+        <div class="panel-card" style="min-height:300px">
+          <div class="panel-tabs">
+            <button class="ptab active" id="ptab-risk" onclick="switchPTab('risk')"><i class="ti ti-shield-exclamation"></i> Supplier ความเสี่ยงสูง</button>
+            <button class="ptab" id="ptab-issues" onclick="switchPTab('issues')"><i class="ti ti-list-check"></i> ปัญหาที่พบบ่อย</button>
+          </div>
+          <div class="panel-body" id="panel-risk-body"></div>
+          <div class="panel-body" id="panel-issues-body" style="display:none"></div>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="chart-card">
+          <div class="cc-title"><i class="ti ti-chart-radar"></i> คะแนนเฉลี่ยแต่ละหมวด (Radar)</div>
+          <div style="position:relative;height:260px"><canvas id="radar-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="cc-title"><i class="ti ti-alert-triangle" style="color:var(--red)"></i> สัดส่วนความเสี่ยง H / M / L แต่ละหมวด</div>
+          <div id="risk-breakdown-area"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-companies">
+      <div class="tbl-card">
+        <div class="tbl-toolbar">
+          <h3><i class="ti ti-table" style="color:var(--orange)"></i> รายชื่อบริษัทที่ประเมินแล้ว</h3>
+          <div class="search-box"><i class="ti ti-search"></i><input type="text" id="search-q" placeholder="ค้นหาบริษัท..." oninput="renderTable()"></div>
+          <select class="flt" id="grade-flt" onchange="renderTable()">
+            <option value="">ทุกสถานะ</option>
+            <option value="pass">✓ ผ่านเกณฑ์ดี</option>
+            <option value="improve">⚠ ต้องปรับปรุง</option>
+            <option value="fail">✗ ไม่ผ่านเกณฑ์</option>
+          </select>
+          <select class="flt" id="sort-q" onchange="renderTable()">
+            <option value="date-desc">วันที่ล่าสุด</option>
+            <option value="score-desc">คะแนนสูงสุด</option>
+            <option value="score-asc">คะแนนต่ำสุด</option>
+            <option value="name">ชื่อบริษัท</option>
+          </select>
+          <span id="row-count" style="font-size:11px;color:var(--text3)"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th>#</th><th>บริษัท</th><th>ผู้ติดต่อ</th><th>วันที่</th>
+              <th>แรงงาน</th><th>H&S</th><th>สิ่งแวดล้อม</th><th>จริยธรรม</th><th>การจัดการ</th>
+              <th>รวม</th><th>สถานะ</th><th></th>
+            </tr></thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-detail">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+        <select class="flt" id="co-select" onchange="renderDetail()" style="flex:1;max-width:400px">
+          <option value="">— เลือกบริษัท —</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="printDetailReport()"><i class="ti ti-printer"></i> พิมพ์รายงาน</button>
+        <button class="btn btn-primary btn-sm" onclick="exportSingleCSV()"><i class="ti ti-file-spreadsheet"></i> Export CSV</button>
+      </div>
+      <div class="detail-grid">
+        <div id="detail-area">
+          <div class="center-state"><i class="ti ti-building"></i><p>เลือกบริษัทเพื่อดูรายงาน</p></div>
+        </div>
+        <div class="panel-card" style="position:sticky;top:0">
+          <div class="panel-tabs">
+            <button class="ptab active" style="font-size:12px"><i class="ti ti-clipboard-list"></i> Corrective Action Plan</button>
+          </div>
+          <div class="panel-body" id="cap-detail-body">
+            <div class="empty-panel"><i class="ti ti-building"></i><p>เลือกบริษัทเพื่อดูแผนแก้ไข</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7G_NAqp6bTtZv9LR4P3Orqbq7RKOVvmgt8C5E6j0MgvCYrpufIo0nVWBC_ppH8sDUBw/exec";
+
+const SMETA = [
+  {id:'s2',label:'แรงงาน',color:'#E8651A',questions:[
+    {id:'1.1',r:'H'},{id:'1.2',r:'H'},{id:'1.3',r:'H'},
+    {id:'2.1',r:'H'},{id:'2.2',r:'H'},{id:'2.3',r:'H'},{id:'2.4',r:'H'},{id:'2.5',r:'H'},{id:'2.6',r:'H'},{id:'2.7',r:'H'},{id:'2.8',r:'H'},
+    {id:'3.1',r:'H'},{id:'3.2',r:'H'},{id:'3.3',r:'H'},{id:'3.4',r:'M'},
+    {id:'4.1',r:'H'},{id:'4.2',r:'H'},{id:'4.3',r:'H'},{id:'4.4',r:'H'},{id:'4.5',r:'H'},{id:'4.6',r:'H'},{id:'4.7',r:'H'},{id:'4.8',r:'H'},
+    {id:'5.1',r:'M'},{id:'5.2',r:'H'},{id:'5.3',r:'H'},{id:'5.4',r:'M'},{id:'5.5',r:'M'},{id:'5.6',r:'M'},
+    {id:'6.1',r:'H'},{id:'6.2',r:'H'},{id:'6.3',r:'H'},
+    {id:'7.1',r:'H'},{id:'7.2',r:'H'},{id:'7.3',r:'H'},{id:'7.4',r:'H'},{id:'7.5',r:'H'},
+    {id:'8.1',r:'H'},{id:'8.2',r:'H'},{id:'8.3',r:'H'},{id:'8.4',r:'M'},{id:'8.5',r:'H'},
+    {id:'9.1',r:'H'},{id:'9.2',r:'H'},{id:'9.3',r:'H'},{id:'9.4',r:'H'},{id:'9.5',r:'H'},{id:'9.6',r:'H'},
+    {id:'10.1',r:'H'},{id:'10.2',r:'H'},{id:'10.3',r:'H'},{id:'10.4',r:'H'},{id:'10.5',r:'L'},
+    {id:'11.1',r:'H'},{id:'11.2',r:'H'},{id:'11.3',r:'H'},
+    {id:'12.1',r:'H'},{id:'12.2',r:'H'},{id:'12.3',r:'M'},
+  ]},
+  {id:'s3',label:'H&S',color:'#16A34A',questions:[
+    {id:'B1.1',r:'H'},{id:'B1.2',r:'H'},{id:'B1.3',r:'H'},{id:'B1.4',r:'H'},
+    {id:'B2.1',r:'H'},{id:'B2.2',r:'H'},{id:'B2.3',r:'H'},{id:'B2.4',r:'H'},{id:'B2.5',r:'H'},{id:'B2.6',r:'H'},{id:'B2.7',r:'H'},{id:'B2.8',r:'M'},
+    {id:'B3.1',r:'H'},{id:'B3.2',r:'H'},{id:'B3.3',r:'H'},{id:'B3.4',r:'H'},{id:'B3.5',r:'H'},{id:'B3.6',r:'H'},{id:'B3.7',r:'H'},{id:'B3.8',r:'H'},{id:'B3.9',r:'H'},{id:'B3.10',r:'H'},
+  ]},
+  {id:'s4',label:'สิ่งแวดล้อม',color:'#0891B2',questions:[
+    {id:'C1.1',r:'H'},{id:'C1.2',r:'H'},{id:'C1.3',r:'M'},{id:'C1.4',r:'H'},{id:'C1.5',r:'M'},
+  ]},
+  {id:'s5',label:'จริยธรรม',color:'#7C3AED',questions:[
+    {id:'D1.1',r:'H'},{id:'D1.2',r:'H'},{id:'D1.3',r:'H'},{id:'D1.4',r:'H'},{id:'D1.5',r:'H'},
+    {id:'D2.1',r:'H'},{id:'D3.1',r:'H'},{id:'D4.1',r:'M'},
+    {id:'D5.1',r:'H'},{id:'D5.2',r:'H'},{id:'D5.3',r:'H'},{id:'D5.4',r:'H'},
+    {id:'D6.1',r:'M'},{id:'D6.2',r:'M'},{id:'D7.1',r:'H'},{id:'D7.2',r:'H'},
+    {id:'D8.1',r:'H'},{id:'D8.2',r:'H'},
+  ]},
+  {id:'s6',label:'การจัดการ',color:'#0369A1',questions:[
+    {id:'E1.1',r:'M'},{id:'E1.2',r:'M'},{id:'E1.3',r:'M'},{id:'E1.4',r:'M'},
+    {id:'E1.5',r:'M'},{id:'E1.6',r:'M'},{id:'E1.7',r:'M'},{id:'E1.8',r:'M'},
+  ]},
+];
+
+const ALL_Q = SMETA.flatMap(m=>m.questions);
+function qRisk(id){ return (ALL_Q.find(q=>q.id===id)||{r:'M'}).r; }
+function qSec(id){ return (SMETA.find(m=>m.questions.some(q=>q.id===id))||{id:'s2'}).id; }
+
+let allData=[],charts={};
+
+function gradeOf(s){return s>=80?{label:'ผ่านเกณฑ์ดี',cls:'gp-pass',key:'pass'}:s>=60?{label:'ต้องปรับปรุง',cls:'gp-imp',key:'improve'}:{label:'ไม่ผ่านเกณฑ์',cls:'gp-fail',key:'fail'}}
+function sColor(s){return s>=80?'var(--green)':s>=60?'var(--amber)':'var(--red)'}
+function getSecScore(s,id){return Number(s[id+'_score']||(s.sectionScores||[]).find(x=>x.id===id)?.score||0)}
+function getOverall(s){return Number(s.overall_score||s.overall?.score||0)}
+function countCritical(s){return Object.entries(s.answers||{}).filter(([id,v])=>v==='no'&&qRisk(id)==='H').length}
+
+function toast(msg,type=''){const t=document.getElementById('toast');t.innerHTML=msg;t.className='toast show '+type;clearTimeout(t._t);t._t=setTimeout(()=>t.className='toast',3500)}
+
+async function loadData(){
+  document.getElementById('loading-state').style.display='flex';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  try{
+    if(APPS_SCRIPT_URL!=='YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){
+      const r=await fetch(APPS_SCRIPT_URL);const j=await r.json();allData=j.data||[];
+    }else{allData=demoData();}
+    document.getElementById('last-upd').textContent=new Date().toLocaleTimeString('th-TH');
+    const sel=document.getElementById('co-select');
+    sel.innerHTML='<option value="">— เลือกบริษัท —</option>';
+    allData.forEach(s=>{const o=document.createElement('option');o.value=String(s.submission_id||s.id);o.textContent=`${s.company} (${s.date||'—'})`;sel.appendChild(o);});
+    document.getElementById('loading-state').style.none';
+    goView('overview',document.querySelector('.nav-item'));
+  }catch(err){toast('<i class="ti ti-alert-triangle"></i> โหลดไม่สำเร็จ: '+err.message,'error');document.getElementById('loading-state').style.display='none';}
+}
+
+function renderOverview(){
+  if(!allData.length){document.getElementById('metrics-area').innerHTML='<p style="color:var(--text3)">ยังไม่มีข้อมูล</p>';return;}
+  const scores=allData.map(s=>getOverall(s));
+  const avg=Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+  const passed=scores.filter(s=>s>=80).length,improve=scores.filter(s=>s>=60&&s<80).length,failed=scores.filter(s=>s<60).length;
+
+  document.getElementById('metrics-area').innerHTML=`
+    <div class="metric-card mc-orange"><div class="m-icon" style="background:var(--orange-lt)"><i class="ti ti-building" style="color:var(--orange)"></i></div><div class="m-lbl">บริษัทที่ประเมิน</div><div class="m-val">${allData.length}</div><div class="m-sub">บริษัท</div></div>
+    <div class="metric-card mc-blue"><div class="m-icon" style="background:var(--blue-lt)"><i class="ti ti-chart-line" style="color:var(--blue)"></i></div><div class="m-lbl">คะแนนเฉลี่ย</div><div class="m-val" style="color:${sColor(avg)}">${avg}<span style="font-size:14px;font-weight:400">%</span></div><div class="m-sub">ทุกบริษัท</div></div>
+    <div class="metric-card mc-green"><div class="m-icon" style="background:var(--green-lt)"><i class="ti ti-circle-check" style="color:var(--green)"></i></div><div class="m-lbl">ผ่านเกณฑ์ ≥80%</div><div class="m-val" style="color:var(--green)">${passed}</div><div class="m-sub">${allData.length?Math.round(passed/allData.length*100):0}% ของทั้งหมด</div></div>
+    <div class="metric-card mc-amber"><div class="m-icon" style="background:var(--amber-lt)"><i class="ti ti-alert-triangle" style="color:var(--amber)"></i></div><div class="m-lbl">ต้องปรับปรุง</div><div class="m-val" style="color:var(--amber)">${improve}</div><div class="m-sub">60–79%</div></div>
+    <div class="metric-card mc-red"><div class="m-icon" style="background:var(--red-lt)"><i class="ti ti-x" style="color:var(--red)"></i></div><div class="m-lbl">ไม่ผ่านเกณฑ์</div><div class="m-val" style="color:var(--red)">${failed}</div><div class="m-sub">&lt;60%</div></div>`;
+
+  const sorted=[...allData].sort((a,b)=>getOverall(b)-getOverall(a));
+  const barH=Math.max(160,sorted.length*44+60);
+  document.getElementById('bar-wrap').style.height=barH+'px';
+  buildChart('bar-chart','bar',{
+    labels:sorted.map(s=>s.company),
+    datasets:[{data:sorted.map(s=>getOverall(s)),backgroundColor:sorted.map(s=>sColor(getOverall(s))+'CC'),borderColor:sorted.map(s=>sColor(getOverall(s))),borderWidth:1.5,borderRadius:5}]
+  },{indexAxis:'y',scales:{x:{min:0,max:100,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11,family:'Prompt'}}},y:{ticks:{font:{size:11,family:'Prompt'}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}%`}}}});
+
+  buildChart('pie-chart','doughnut',{
+    labels:['ผ่านเกณฑ์ดี','ต้องปรับปรุง','ไม่ผ่านเกณฑ์'],
+    datasets:[{data:[passed,improve,failed],backgroundColor:['#16A34A','#D97706','#DC2626'],borderWidth:3,borderColor:'#fff'}]
+  },{cutout:'62%',plugins:{legend:{position:'bottom',labels:{font:{size:11,family:'Prompt'},padding:12,boxWidth:12}},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw} บริษัท`}}}});
+
+  const secAvgs=SMETA.map(m=>allData.length?Math.round(allData.reduce((a,s)=>a+getSecScore(s,m.id),0)/allData.length):0);
+  buildChart('radar-chart','radar',{
+    labels:SMETA.map(m=>m.label),
+    datasets:[{label:'เฉลี่ย %',data:secAvgs,backgroundColor:'rgba(232,101,26,.1)',borderColor:'#E8651A',pointBackgroundColor:'#E8651A',borderWidth:2,pointRadius:4}]
+  },{scales:{r:{min:0,max:100,ticks:{font:{size:9,family:'Prompt'}},pointLabels:{font:{size:11,family:'Prompt'}}}},plugins:{legend:{display:false}}});
+
+  document.getElementById('risk-breakdown-area').innerHTML=SMETA.map(sec=>{
+    const H=sec.questions.filter(q=>q.r==='H').length;
+    const M=sec.questions.filter(q=>q.r==='M').length;
+    const L=sec.questions.filter(q=>q.r==='L').length;
+    const T=H+M+L;
+    const pH=T?Math.round(H/T*100):0,pM=T?Math.round(M/T*100):0,pL=T?Math.round(L/T*100):0;
+    return`<div class="risk-sec-row">
+      <div class="risk-sec-name"><span style="width:7px;height:7px;border-radius:50%;background:${sec.color};display:inline-block;flex-shrink:0"></span>${sec.label}<span style="font-size:10px;color:var(--text3);margin-left:auto">${T} ข้อ</span></div>
+      <div class="risk-bar-row"><span class="risk-lbl H">H</span><div class="risk-track"><div class="risk-fill H" style="width:${pH}%"></div></div><span class="risk-pct H">${pH}%</span><span class="risk-cnt">${H} ข้อ</span></div>
+      <div class="risk-bar-row"><span class="risk-lbl M">M</span><div class="risk-track"><div class="risk-fill M" style="width:${pM}%"></div></div><span class="risk-pct M">${pM}%</span><span class="risk-cnt">${M} ข้อ</span></div>
+      <div class="risk-bar-row"><span class="risk-lbl L">L</span><div class="risk-track"><div class="risk-fill L" style="width:${pL}%"></div></div><span class="risk-pct L">${pL}%</span><span class="risk-cnt">${L} ข้อ</span></div>
+    </div>`;}).join('');
+
+  renderPanelRisk(allData);
+  renderPanelIssues(allData);
+}
+
+function renderPanelRisk(data){
+  const el=document.getElementById('panel-risk-body');
+  if(!data.length){el.innerHTML='<div class="empty-panel"><i class="ti ti-building"></i><p>ยังไม่มีข้อมูล</p></div>';return;}
+  const sorted=[...data].sort((a,b)=>{
+    const ca=countCritical(a),cb=countCritical(b);
+    return cb!==ca?cb-ca:getOverall(a)-getOverall(b);
+  }).slice(0,5);
+  const rnkColors=['#DC2626','#EA580C','#D97706','#65A30D','#16A34A'];
+  const rnkBg=['#FEF2F2','#FFF7ED','#FFFBEB','#F7FEE7','#F0FDF4'];
+
+  let html=`<div class="panel-title"><i class="ti ti-shield-exclamation" style="color:var(--red)"></i> Top 5 Supplier ต้องจัดการเร่งด่วน</div>`;
+  html+=sorted.map((s,i)=>{
+    const sc=getOverall(s);const crit=countCritical(s);const g=gradeOf(sc);
+    return`<div class="watch-row" style="border-color:${rnkColors[i]}40;background:${rnkBg[i]}" onclick="viewCoDetail('${String(s.submission_id||s.id)}')">
+      <div class="wr-rank" style="background:${rnkColors[i]}20;color:${rnkColors[i]}">${i+1}</div>
+      <div class="wr-info">
+        <div class="wr-name">${s.company}</div>
+        <div class="wr-meta">
+          ${crit>0?`<span style="color:var(--red)"><i class="ti ti-x-circle" style="font-size:11px"></i> H ไม่ผ่าน ${crit} ข้อ</span>`:''}
+          <span class="grade-pill ${g.cls}" style="font-size:10px;padding:1px 6px">${g.label}</span>
+        </div>
+      </div>
+      <div class="wr-score" style="color:${sColor(sc)}">${sc}%</div>
+    </div>`;}).join('');
+
+  const failCount={};
+  data.forEach(s=>Object.entries(s.answers||{}).forEach(([id,v])=>{if(v==='no'&&qRisk(id)==='H')failCount[id]=(failCount[id]||0)+1;}));
+  const topFails=Object.entries(failCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  if(topFails.length){
+    html+=`<div class="panel-title" style="margin-top:14px;padding-top:12px;border-top:0.5px solid var(--border)"><i class="ti ti-target" style="color:var(--orange)"></i> ปัญหาวิกฤต H ที่พบบ่อยที่สุดในระบบ</div>`;
+    html+=topFails.map(([id,cnt])=>`
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:var(--r);background:var(--red-lt);border:0.5px solid var(--red-mid);margin-bottom:5px">
+        <span style="font-size:10px;font-weight:700;background:var(--red);color:white;padding:1px 7px;border-radius:4px;flex-shrink:0">H</span>
+        <span style="font-size:12px;color:var(--text);flex:1">ข้อ ${id}</span>
+        <span style="font-size:11px;color:var(--red);font-weight:600;flex-shrink:0">${cnt}/${data.length} บริษัท</span>
+      </div>`).join('');
+  }
+  el.innerHTML=html;
+}
+
+function renderPanelIssues(data){
+  const el=document.getElementById('panel-issues-body');
+  if(!data.length){el.innerHTML='<div class="empty-panel"><i class="ti ti-building"></i><p>ยังไม่มีข้อมูล</p></div>';return;}
+  const agg={H:{},M:{},L:{}};
+  data.forEach(s=>Object.entries(s.answers||{}).forEach(([id,v])=>{
+    if(v==='no'||v==='partial'){
+      const r=qRisk(id);
+      if(!agg[r][id])agg[r][id]={id,no:0,partial:0};
+      if(v==='no')agg[r][id].no++;else agg[r][id].partial++;
+    }
+  }));
+  const deadlines={H:'ดำเนินการภายใน 30 วัน',M:'ภายใน 60 วัน',L:'แผนปรับปรุง 90 วัน'};
+  const rColors={H:'var(--red)',M:'var(--amber)',L:'var(--green)'};
+  let html='';
+  ['H','M','L'].forEach(r=>{
+    const items=Object.values(agg[r]).sort((a,b)=>(b.no+b.partial*.5)-(a.no+a.partial*.5)).slice(0,r==='H'?6:4);
+    if(!items.length)return;
+    html+=`<div class="panel-title" style="margin-top:${r==='H'?0:12}px">
+      <span style="background:${r==='H'?'var(--red-lt)':r==='M'?'var(--amber-lt)':'var(--green-lt)'};color:${rColors[r]};font-size:10px;font-weight:700;padding:1px 8px;border-radius:4px">Risk ${r}</span>
+      ${r==='H'?'ต้องแก้เร่งด่วน':r==='M'?'ต้องปรับปรุง':'ติดตามผล'}
+    </div>`;
+    html+=items.map(it=>`
+      <div class="cap-item ${r}">
+        <span class="cap-badge ${r}">${r}</span>
+        <div class="cap-text">
+          <div style="font-weight:500">ข้อ ${it.id}</div>
+          <div class="fail-line">${it.no?`<span style="color:var(--red)">✗ ${it.no} บริษัท</span>`:''}${it.partial?`<span style="color:var(--amber);margin-left:6px">◐ ${it.partial} บริษัท</span>`:''}</div>
+        </div>
+        <span class="cap-deadline">${deadlines[r]}</span>
+      </div>`).join('');
+  });
+  el.innerHTML=html||'<div class="empty-panel"><i class="ti ti-circle-check" style="color:var(--green)"></i><p style="color:var(--green)">ไม่พบปัญหา</p></div>';
+}
+
+function switchPTab(tab){
+  document.getElementById('ptab-risk').classList.toggle('active',tab==='risk');
+  document.getElementById('ptab-issues').classList.toggle('active',tab==='issues');
+  document.getElementById('panel-risk-body').style.display=tab==='risk'?'block':'none';
+  document.getElementById('panel-issues-body').style.display=tab==='issues'?'block':'none';
+}
+
+function renderTable(){
+  const q=(document.getElementById('search-q').value||'').toLowerCase();
+  const gf=document.getElementById('grade-flt').value;
+  const so=document.getElementById('sort-q').value;
+  let d=[...allData].filter(s=>{const n=(s.company||'').toLowerCase();const g=gradeOf(getOverall(s)).key;return n.includes(q)&&(!gf||g===gf);});
+  if(so==='score-desc')d.sort((a,b)=>getOverall(b)-getOverall(a));
+  else if(so==='score-asc')d.sort((a,b)=>getOverall(a)-getOverall(b));
+  else if(so==='name')d.sort((a,b)=>(a.company||'').localeCompare(b.company||''));
+  document.getElementById('row-count').textContent=`${d.length} / ${allData.length} รายการ`;
+  const tbody=document.getElementById('table-body');
+  if(!d.length){tbody.innerHTML=`<tr><td colspan="12" style="text-align:center;padding:2rem;color:var(--text3)">ไม่พบข้อมูล</td></tr>`;return;}
+  const sBar=v=>{const c=sColor(v);return`<div class="s-bar"><div class="s-bar-track"><div class="s-bar-fill" style="width:${v}%;background:${c}"></div></div><span style="font-size:11px;font-weight:500;color:${c};min-width:28px">${v}%</span></div>`;};
+  tbody.innerHTML=d.map((s,i)=>{
+    const sc=getOverall(s);const g=gradeOf(sc);const id=String(s.submission_id||s.id);
+    return`<tr><td style="color:var(--text3)">${i+1}</td><td><strong style="color:var(--text)">${s.company}</strong></td><td>${s.contact||'—'}</td><td style="white-space:nowrap;font-size:11px;color:var(--text3)">${s.date||'—'}</td>${SMETA.map(m=>`<td>${sBar(getSecScore(s,m.id))}</td>`).join('')}<td><strong style="font-size:14px;color:${sColor(sc)}">${sc}%</strong></td><td><span class="grade-pill ${g.cls}">${g.label}</span></td><td><button onclick="viewCoDetail('${id}')" class="btn btn-ghost btn-sm"><i class="ti ti-eye"></i> ดู</button></td></tr>`;
+  }).join('');
+}
+
+function viewCoDetail(id){document.getElementById('co-select').value=id;goView('detail',document.querySelectorAll('.nav-item')[2]);renderDetail();}
+
+function renderDetail(){
+  const id=document.getElementById('co-select').value;
+  const area=document.getElementById('detail-area');
+  const capEl=document.getElementById('cap-detail-body');
+  if(!id){
+    area.innerHTML='<div class="center-state"><i class="ti ti-building"></i><p>เลือกบริษัทเพื่อดูรายงาน</p></div>';
+    capEl.innerHTML='<div class="empty-panel"><i class="ti ti-building"></i><p>เลือกบริษัทเพื่อดูแผนแก้ไข</p></div>';
+    return;
+  }
+  const s=allData.find(x=>String(x.submission_id||x.id)===id);
+  if(!s){area.innerHTML='<div class="center-state"><i class="ti ti-alert-circle"></i><p>ไม่พบข้อมูล</p></div>';return;}
+  const sc=getOverall(s);const g=gradeOf(sc);
+  const yes=s.overall?.yes||0,no=s.overall?.no||0,partial=s.overall?.partial||0;
+  const naCount=s.overall?.na||Object.values(s.answers||{}).filter(a=>a==='na').length||0;
+  const allQ2=SMETA.flatMap(m=>m.questions);
+  const noItems=allQ2.filter(q=>s.answers?.[q.id]==='no');
+  const partItems=allQ2.filter(q=>s.answers?.[q.id]==='partial');
+
+  area.innerHTML=`
+    <div class="detail-header">
+      <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+        <div class="co-avatar">${s.company.charAt(0)}</div>
+        <div style="flex:1">
+          <h2 style="font-size:17px;font-weight:600;margin-bottom:6px">${s.company}</h2>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            ${s.type?`<span class="info-tag"><i class="ti ti-briefcase"></i>${s.type}</span>`:''}
+            ${s.contact?`<span class="info-tag"><i class="ti ti-user"></i>${s.contact}${s.position?' · '+s.position:''}</span>`:''}
+            ${s.email?`<span class="info-tag"><i class="ti ti-mail"></i>${s.email}</span>`:''}
+            <span class="info-tag"><i class="ti ti-calendar"></i>${s.date||'—'}</span>
+            ${s.employees?`<span class="info-tag"><i class="ti ti-users"></i>${s.employees} คน</span>`:''}
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div class="big-score" style="color:${sColor(sc)}">${sc}<span style="font-size:18px">%</span></div>
+          <span class="grade-pill ${g.cls}" style="margin-top:5px">${g.label}</span>
+        </div>
+      </div>
+      <div class="stat-4">
+        <div class="stat-box" style="background:var(--green-lt)"><div class="stat-box-lbl" style="color:var(--green)"><i class="ti ti-check"></i> ใช่</div><div class="stat-box-val" style="color:var(--green)">${yes}</div></div>
+        <div class="stat-box" style="background:var(--amber-lt)"><div class="stat-box-lbl" style="color:var(--amber)"><i class="ti ti-adjustments-half"></i> บางส่วน</div><div class="stat-box-val" style="color:var(--amber)">${partial}</div></div>
+        <div class="stat-box" style="background:var(--red-lt)"><div class="stat-box-lbl" style="color:var(--red)"><i class="ti ti-x"></i> ไม่ใช่</div><div class="stat-box-val" style="color:var(--red)">${no}</div></div>
+        <div class="stat-box" style="background:#F3F4F6"><div class="stat-box-lbl" style="color:#6B7280"><i class="ti ti-minus"></i> ไม่เกี่ยวข้อง</div><div class="stat-box-val" style="color:#6B7280">${naCount}</div></div>
+      </div>
+    </div>
+    <div class="sec-score-grid">
+      ${SMETA.map(m=>{const v=getSecScore(s,m.id);const H=m.questions.filter(q=>q.r==='H').length,M=m.questions.filter(q=>q.r==='M').length,L=m.questions.filter(q=>q.r==='L').length,T=H+M+L;return`<div class="sec-sc-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:12px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:${m.color};display:inline-block"></span>${m.label}</span>
+          <span style="font-size:17px;font-weight:600;color:${sColor(v)}">${v}%</span>
+        </div>
+        <div style="background:var(--border);border-radius:3px;height:6px;overflow:hidden;margin-bottom:8px"><div style="width:${v}%;height:100%;background:${m.color};border-radius:3px;transition:width .6s"></div></div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
+          <span style="font-size:9.5px;padding:1px 6px;border-radius:4px;background:var(--red-lt);color:var(--red-dk);font-weight:500">H: ${T?Math.round(H/T*100):0}%</span>
+          <span style="font-size:9.5px;padding:1px 6px;border-radius:4px;background:var(--amber-lt);color:var(--amber-dk);font-weight:500">M: ${T?Math.round(M/T*100):0}%</span>
+          <span style="font-size:9.5px;padding:1px 6px;border-radius:4px;background:var(--green-lt);color:var(--green-dk);font-weight:500">L: ${T?Math.round(L/T*100):0}%</span>
+        </div>
+        <div style="display:flex;gap:10px;font-size:11px;color:var(--text3)">
+          <span style="color:var(--green)">✓ ${(s.sectionScores||[]).find(x=>x.id===m.id)?.yes||0}</span>
+          <span style="color:var(--amber)">◐ ${(s.sectionScores||[]).find(x=>x.id===m.id)?.partial||0}</span>
+          <span style="color:var(--red)">✗ ${(s.sectionScores||[]).find(x=>x.id===m.id)?.no||0}</span>
+        </div>
+      </div>`;}).
